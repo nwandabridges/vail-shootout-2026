@@ -41,11 +41,10 @@ STEPS=[
  ("travel","🚶 <b>~7-min walk</b> back Athletic → Ford Park."),
  ("game","12:00 PM","Ford - Field 1"),
  ("game","12:45 PM","Ford - Field 1"),
- ("game","1:30 PM","Ford - Field 1"),
- ("travel","🚌 <b>~2:05p · Ford Park → Vail Mountain School (East Vail).</b> <b>In-Town Shuttle</b> from Ford Park (every 7–10 min) → <b>Vail Transportation Center</b> (~10 min). Transfer to the <b>East Vail</b> route (every ~15 min) → <b>Booth Falls</b> stop → 3-min walk to the school. ~35–40 min door-to-door; arrive ~2:45p.<br><small>You'll arrive before the 3:00 game — catch it too (Laxgear vs Domewood) to fill the gap; the three VMS games below cover all four Supermasters teams there.</small>"),
- ("game","3:45 PM","Vail Mountain School"),
- ("game","4:30 PM","Vail Mountain School"),
- ("travel","🚌 <b>~5:05p · Vail Mtn School → Sun Vail.</b> Walk to the Booth Falls stop → <b>East Vail</b> route → <b>Vail Transportation Center</b> → transfer to the <b>Sandstone</b> bus → Sun Vail. ~40 min."),
+ ("travel","🚌 <b>~1:20p · Ford Park → Vail Mountain School (East Vail).</b> Leave right after the 12:45 game. <b>In-Town Shuttle</b> from Ford Park (every 7–10 min) → <b>Vail Transportation Center</b> (~10 min). Transfer to the <b>East Vail</b> route (every ~15 min) → <b>Booth Falls</b> stop → 3-min walk to the school. ~35–40 min door-to-door; arrive ~2:00p, just ahead of the 2:15 game.<br><small>Skipping the 1:30 Ford game is the one trade for the shorter day — it costs you 10th Mtn Whiskey. The two VMS games below cover all four Supermasters teams there.</small>"),
+ ("game","2:15 PM","Vail Mountain School"),
+ ("game","3:00 PM","Vail Mountain School"),
+ ("travel","🚌 <b>~3:35p · Vail Mtn School → Sun Vail.</b> Walk to the Booth Falls stop → <b>East Vail</b> route → <b>Vail Transportation Center</b> → transfer to the <b>Sandstone</b> bus → Sun Vail. ~40 min. <b>Home by ~4:15p.</b>"),
 ]
 route=[]
 for s in STEPS:
@@ -128,10 +127,10 @@ a{color:var(--bus)}
 <div class=wrap id=view-route style=display:none>
  <div class=stat>
    <div><b id=rTeams></b>teams covered</div>
-   <div><b>~52</b>min on buses</div>
+   <div><b>~3:30p</b>last shot · home ~4:15</div>
    <div><b>$0</b>all buses free</div>
  </div>
- <p class=sub>🚌 <b>Car-free plan</b> from Sun Vail · maximizes distinct teams, minimizes travel · ~35 min per game · Sat Jun 27. All Town of Vail buses are <b>free</b>.</p>
+ <p class=sub>🚌 <b>Car-free · shorter day</b> from Sun Vail · full Ford Park morning, out to East Vail after lunch, done by ~3:30p · ~35 min per game · Sat Jun 27. All Town of Vail buses are <b>free</b>.</p>
  <div id=routeout></div>
  <div class=note id=missnote></div>
 
@@ -143,7 +142,7 @@ a{color:var(--bus)}
   <li><b>East Vail route</b>: serves the <b>Booth Falls</b> stop by Vail Mountain School; ~15-min service from 6a.</li>
   <li><b>Sandstone route</b>: your home stop at Sun Vail ↔ Transportation Center.</li>
   <li><b>Easier morning (–1 team):</b> skip the 8:00 game and start at 8:45 — but you'd miss either Silverbacks or Mr Boh (the two early Zenmasters split across the 8:00 Ford 1 & Ford 2 games).</li>
-  <li><b>Shorter day (–1 team, done ~3:35p):</b> leave Ford after the 12:45 game, ride to VMS for the 2:15 & 3:00 games. You'd drop only <b>10th Mtn Whiskey</b> and skip the late-afternoon wait.</li>
+  <li><b>Fuller day (+1 team, ends ~5p):</b> stay at Ford for the 1:30 game (adds <b>10th Mtn Whiskey</b>, 18 teams), then ride to VMS for the 3:45 &amp; 4:30 games — at the cost of a longer afternoon and a wait before the 3:45 game.</li>
   <li>⚠️ Times are estimates from published frequencies (the live timetable wasn't machine-readable). Confirm departures on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
  </ul></details>
 
@@ -189,9 +188,9 @@ for(const r of D.route){
 }
 document.getElementById('routeout').innerHTML=ro;
 document.getElementById('covchips').innerHTML=D.covered.map(t=>`<span class=chip>${t}</span>`).join('');
-document.getElementById('missnote').innerHTML=`<b>${D.missed.length} teams not reachable today:</b> ${D.missed.join(', ')}. `+
- `They're boxed out by the 10:30–12:00 Grandmasters crunch (8 teams across 3 parallel fields). `+
- `To grab them you'd field-hop (≈15–20 min/game) during that window: <b>Old Big Green</b> is on Ford Field 1, <b>Team 41</b> on the Athletic field (10:30, or the 12:00 Team 8 vs Team 41 game).`;
+document.getElementById('missnote').innerHTML=`<b>${D.missed.length} of 20 teams not covered:</b> ${D.missed.join(', ')}.<br>`+
+ `• <b>10th Mtn Whiskey</b> — skipped by choice for the shorter day (it only plays the 1:30 &amp; 2:15 Ford games). Want it? Use the <i>Fuller day</i> option below.<br>`+
+ `• <b>Old Big Green</b> &amp; <b>Team 41</b> — boxed out by the 10:30–12:00 Grandmasters crunch (8 teams across 3 parallel fields). To grab them you'd field-hop (≈15–20 min/game): Old Big Green is on Ford Field 1, Team 41 on the Athletic field (10:30, or the 12:00 Team 8 vs Team 41 game).`;
 </script></body></html>"""
 
 HTML=HTML.replace("__DATA__",json.dumps(DATA)).replace("__NGAMES__",str(len(g))).replace("__TODAY__","2026-06-26")
