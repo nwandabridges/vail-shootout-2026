@@ -49,9 +49,69 @@ for x in g:
 def game(tm,fld):
     return next((x for x in g if x['date']=='20260627' and x['t']==t24(tm) and x['field']==fld),None)
 
+# ---- Transit: SINGLE SOURCE OF TRUTH for bus times -----------------------------
+# Every bus time the route mentions lives here exactly once, so the prose can't
+# drift (the times below are interpolated into the step text). Re-check these
+# against the published Town of Vail schedules and bump TRANSIT_VERIFIED.
+TRANSIT_VERIFIED = "Jun 26, 2026"
+def _q(s): return s.replace(" ","+").replace(",","%2C")
+def maps_transit(orig,dest):  # tap-to-verify: opens live transit directions
+    return f"https://www.google.com/maps/dir/?api=1&origin={_q(orig)}&destination={_q(dest)}&travelmode=transit"
+# leg = one bus you board: which route, where/when you get on, where/when you get off.
+BUSES={
+ "out":   {"route":"Sandstone",     "from":"Sun Vail",                   "depart":"7:23a", "to":"Vail Transportation Center", "arrive":"~7:25a"},
+ "toVMS": {"route":"East Vail",      "from":"Ford Park",                  "depart":"1:58p", "to":"Booth Falls",               "arrive":"~2:08p"},
+ "home1": {"route":"East Vail",      "from":"Booth Falls",                "depart":"3:27p", "to":"Vail Transportation Center", "arrive":""},
+ "home2": {"route":"West Vail Red",  "from":"Vail Transportation Center", "depart":"3:40p", "to":"Sun Vail",                  "arrive":""},
+}
+def verify(orig,dest):  # "check live ↗" link + a verified-on stamp, shown on every bus step
+    return (f' <a class=chk href="{maps_transit(orig,dest)}" target=_blank rel=noopener>check live ↗</a>'
+            f' <span class=verified>verified {TRANSIT_VERIFIED}</span>')
+B=BUSES
+
+# ---- Feasibility: compute connection cushions from the bus times + game times --
+# so a too-tight (or impossible) connection is caught at build time AND shown on
+# the page, instead of being eyeballed. DWELL must match route_day1_bus.py.
+DWELL=35
+WALK={"out":12,"toVMS":3}   # minutes from the alighting stop to the field
+def hm(s):                  # parse "7:23a" / "~2:08p" -> minutes since midnight
+    s=s.strip().lstrip("~"); m=re.match(r"(\d{1,2}):(\d{2})\s*([ap])",s)
+    if not m: return None
+    return (int(m[1])%12 + (12 if m[3]=="p" else 0))*60 + int(m[2])
+FEAS=[]   # (ok, message) build-time log
+def cushion(arrive_min, walk, faceoff, label, tight=8):
+    cu=faceoff-(arrive_min+walk); ok=cu>=tight
+    FEAS.append((ok, f"{label}: {cu}-min cushion before the {fmt12(faceoff)} faceoff"))
+    cls="cushion" if ok else "cushion tight"
+    return f' <span class="{cls}">{"✓" if ok else "⚠"} {cu}-min cushion before the {fmt12(faceoff).replace(":00","").replace(" ","").lower()} faceoff</span>'
+CUSH_OUT = cushion(hm(B["out"]["arrive"]),   WALK["out"],   t24("8:00 AM"), "Sun Vail → 8:00 Ford")
+CUSH_VMS = cushion(hm(B["toVMS"]["arrive"]), WALK["toVMS"], t24("2:15 PM"), "Ford → 2:15 VMS")
+# Home leg: you leave the 3:00 game early to catch the 3:27 bus — surface by how much.
+_ingame = hm(B["home1"]["depart"]) - t24("3:00 PM")
+_home_ok = _ingame>=DWELL
+FEAS.append((_home_ok, f"home leg: leaves the 3:00 game after {_ingame} min (dwell {DWELL})"))
+CUSH_HOME = (f' <span class="cushion{"" if _home_ok else " tight"}">{"✓" if _home_ok else "⚠"} leaves the 3:00 game after {_ingame} min'
+             f'{"" if _home_ok else f" — under your {DWELL}-min dwell"}</span>')
+
+TRANSIT_OUT  = (f"🚌 <b>{B['out']['depart']} · Sun Vail → Ford Field.</b> Board the <b>{B['out']['route']}</b> bus at "
+  f"<b>{B['out']['from']} ({B['out']['depart']})</b> → <b>{B['out']['to']}</b> ({B['out']['arrive']}). Then a "
+  f"<b>~12-min walk east</b> to Ford Field (frontage/Gore Valley Trail) — arrive ~7:40a, comfortably ahead of the 8:00 faceoff."
+  + CUSH_OUT + verify("Sun Vail, Vail, CO","Ford Park, Vail, CO")
+  + "<br><small>Easy buffer: time to grab coffee at the Village or settle in before the first whistle.</small>")
+LUNCH = (f"🍔 <b>Lunch — ~1:30–{B['toVMS']['depart']} at Ford Park.</b> The 12:45 game wraps ~1:30 and your "
+  f"<b>{B['toVMS']['route']}</b> bus leaves <b>{B['toVMS']['from']} at {B['toVMS']['depart']}</b> — grab food near Ford Park or pack a sandwich for the ride.")
+TRANSIT_VMS = (f"🚌 <b>{B['toVMS']['depart']} · Ford Park → Vail Mtn School.</b> The <b>{B['toVMS']['route']}</b> bus picks up right at "
+  f"<b>{B['toVMS']['from']} ({B['toVMS']['depart']})</b> — no transfer — → <b>{B['toVMS']['to']}</b> ({B['toVMS']['arrive']}), "
+  f"then a 3-min walk to the school, just ahead of the 2:15 game."
+  + CUSH_VMS + verify("Ford Park, Vail, CO","Vail Mountain School, Vail, CO"))
+TRANSIT_HOME = (f"🚌 <b>{B['home1']['depart']} · Vail Mtn School → home.</b> Walk to the <b>{B['home1']['from']}</b> stop and board the "
+  f"<b>{B['home1']['route']}</b> bus (<b>{B['home1']['depart']}</b>) → <b>{B['home1']['to']}</b>, then transfer to the "
+  f"<b>{B['home2']['route']}</b> route (<b>{B['home2']['depart']}</b>) → home."
+  + CUSH_HOME + verify("Vail Mountain School, Vail, CO","Sun Vail, Vail, CO"))
+
 # ---- Day 1 CAR-FREE shorter-day route ----
 STEPS=[
- ("travel","🚌 <b>7:23a · Sun Vail → Ford Field.</b> Catch the <b>Sandstone</b> bus (7:23a) → <b>Vail Transportation Center</b> (~7:25a). From there it's a <b>~12-min walk east</b> to Ford Field (along the frontage/Gore Valley Trail) — you'll arrive ~7:40a, comfortably ahead of the 8:00 faceoff.<br><small>Easy buffer: time to grab coffee at the Village or settle in before the first whistle.</small>"),
+ ("travel",TRANSIT_OUT),
  ("game","8:00 AM","Ford - Ford 2"),
  ("walk","↔ 2-min walk between the two Ford Park fields"),
  ("game","8:45 AM","Ford - Field 1"),
@@ -62,11 +122,11 @@ STEPS=[
  ("travel","🚶 <b>~7-min walk</b> back Athletic → Ford Park."),
  ("game","12:00 PM","Ford - Field 1"),
  ("game","12:45 PM","Ford - Field 1"),
- ("lunch","🍔 <b>Lunch — ~1:30–1:58p at Ford Park.</b> The 12:45 game wraps ~1:30 and your East Vail bus leaves Ford at 1:58 — grab food near Ford Park or pack a sandwich for the ride."),
- ("travel","🚌 <b>Ford Park → Vail Mountain School (East Vail).</b> The <b>East Vail</b> bus picks up right at <b>Ford Park at 1:58p</b> (no transfer) → <b>Booth Falls</b> stop, arriving <b>~2:08p</b> → 3-min walk to the school, just ahead of the 2:15 game."),
+ ("lunch",LUNCH),
+ ("travel",TRANSIT_VMS),
  ("game","2:15 PM","Vail Mountain School"),
  ("game","3:00 PM","Vail Mountain School"),
- ("travel","🚌 <b>3:27p · Vail Mtn School → home.</b> Walk to the <b>Booth Falls</b> stop and catch the <b>3:27p East Vail</b> bus → <b>Vail Transportation Center</b>, then transfer to the <b>West Vail Red</b> route departing <b>3:40p</b>."),
+ ("travel",TRANSIT_HOME),
 ]
 route=[]
 for s in STEPS:
@@ -192,8 +252,14 @@ nav button.on{background:#b91c1c;color:#fff}
 .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}
 .routestep{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:var(--card)}
 .routestep .tm{font-weight:800;color:#fff}
+.routestep.live{outline:2px solid var(--accent);background:#241a1a}
+.routestep.next{outline:1px solid #2f6b48}
 .travel{border:1px dashed var(--bus);background:#13202b;border-radius:10px;padding:10px 12px;margin:7px 0;font-size:14px;color:#cfe8f3;line-height:1.5}
 .travel small{color:var(--mut)}
+.chk{white-space:nowrap;font-weight:600}
+.verified{color:var(--mut);font-size:11px;white-space:nowrap}
+.cushion{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px;background:#16301f;color:#7ee2a8;border:1px solid #2f6b48}
+.cushion.tight{background:#3a2113;color:#ffcf9a;border-color:#6b4a1a}
 .lunch{border:1px solid #caa24a;background:#241d10;border-radius:10px;padding:10px 12px;margin:7px 0;font-size:14px;color:#f1e2c2;line-height:1.5}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .chip{background:#23303d;border:1px solid var(--line);border-radius:20px;padding:4px 10px;font-size:13px}
@@ -256,7 +322,8 @@ a{color:var(--bus)}
   <li><b>Sandstone route</b>: your home stop at Sun Vail ↔ Transportation Center.</li>
   <li><b>Easier morning (–1 team):</b> skip the 8:00 game and start at 8:45 — you'd miss either Silverbacks or Mr Boh.</li>
   <li><b>Fuller day (+1 team, ends ~5p):</b> stay at Ford for the 1:30 game (adds 10th Mtn Whiskey, 18 teams), then ride to VMS for the 3:45 &amp; 4:30 games.</li>
-  <li>⚠️ Bus times are estimates from published frequencies. Confirm live departures on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
+  <li><b>Stay at Ford, skip Athletic (net –1 team):</b> drop the 11:15 walk to Athletic — you'd give up <b>Tivoli Brewery</b> &amp; <b>Team 8</b> (seen nowhere else today) — and instead shoot <b>Old Big Green vs Graybirds</b> on Ford Field 1, grabbing the otherwise-missed <b>Old Big Green</b>. Saves the ~14-min round-trip walk; nets 16 teams instead of 17.</li>
+  <li>⚠️ Bus times verified <b>__VERIFIED__</b> against the published Town of Vail schedules; service can still change. Each bus step has a <b>“check live ↗”</b> link, or confirm departures on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
  </ul></details>
  <p class=fld>Teams you'll photograph</p><div class=chips id=covchips></div>
 </main>
@@ -301,23 +368,24 @@ function nowMtn(){
 function fmtIn(mins){if(mins<60)return 'in '+mins+'m';return 'in '+Math.floor(mins/60)+'h '+(mins%60)+'m'}
 function updateLive(){
   const n=nowMtn(), bar=document.getElementById('nowbar');
-  const cards=[...document.querySelectorAll('#schedout .g')];
-  let nextStart=Infinity, liveN=0, liveCard=null, nextCard=null;
+  // Now/Next applies to both the schedule cards and the route steps.
+  const cards=[...document.querySelectorAll('#schedout .g, #routeout .routestep[data-date]')];
+  let nextStart=Infinity;
   if(n) for(const c of cards){ if(c.dataset.date===n.date){const t=+c.dataset.t; if(t>n.mins&&t<nextStart) nextStart=t;} }
+  let liveN=0, jumpTarget=null;   // bar counts/jumps to schedule cards only
   for(const c of cards){
     c.classList.remove('live','next');
     const b=c.querySelector('.gbadge'); if(b){b.className='gbadge';b.textContent='';}
     if(!n||c.dataset.date!==n.date) continue;
-    const t=+c.dataset.t;
-    if(n.mins>=t&&n.mins<t+SLOT){c.classList.add('live');liveN++;if(b){b.className='gbadge badge live';b.textContent='● LIVE';}if(!liveCard)liveCard=c;}
-    else if(t===nextStart){c.classList.add('next');if(b){b.className='gbadge badge next';b.textContent='NEXT · '+fmtIn(t-n.mins);}if(!nextCard)nextCard=c;}
+    const t=+c.dataset.t, inSched=!!c.closest('#view-sched');
+    if(n.mins>=t&&n.mins<t+SLOT){c.classList.add('live');if(b){b.className='gbadge badge live';b.textContent='● LIVE';}if(inSched){liveN++;if(!jumpTarget)jumpTarget=c;}}
+    else if(t===nextStart){c.classList.add('next');if(b){b.className='gbadge badge next';b.textContent='NEXT · '+fmtIn(t-n.mins);}if(inSched&&!jumpTarget)jumpTarget=c;}
   }
   if(bar){
-    const target=liveCard||nextCard;
-    if(target){
+    if(jumpTarget){
       bar.innerHTML=(liveN?('🔴 <b>'+liveN+' game'+(liveN>1?'s':'')+' live now</b>'):('⏭️ <b>Next game '+fmtIn(nextStart-n.mins)+'</b>'))+' <button type=button>Jump ▾</button>';
       bar.classList.add('show');
-      bar.querySelector('button').onclick=()=>target.scrollIntoView({behavior:'smooth',block:'center'});
+      bar.querySelector('button').onclick=()=>jumpTarget.scrollIntoView({behavior:'smooth',block:'center'});
     } else bar.classList.remove('show');
   }
 }
@@ -351,15 +419,16 @@ setInterval(updateLive,30000);
 document.getElementById('rTeams').textContent=D.covered.length;
 let ro='';
 for(const r of D.route){
-  if(r.type=='game'){ro+=`<div class="routestep ${loc(r.field)}">
+  if(r.type=='game'){ro+=`<div class="routestep ${loc(r.field)}" data-date="${r.date}" data-t="${r.t}">
     <div><div class=tm>${esc(r.time).replace(' ','')}</div></div>
-    <div>${r.gid?`<button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${r.gid}')">＋📅</button>`:''}<div class=dv>${esc(r.division)} · ${esc(r.field)}</div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
+    <div>${r.gid?`<button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${r.gid}')">＋📅</button>`:''}<div class=dv>${esc(r.division)} · ${esc(r.field)}<span class=gbadge></span></div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
     ${r.focus?`<div class=focus>${r.focus}</div>`:''}</div></div>`}
   else if(r.type=='lunch'){ro+=`<div class=lunch>${r.instr}</div>`}
   else if(r.type=='walk'){ro+=`<div class=travel style="border-style:dotted">${r.instr}</div>`}
   else {ro+=`<div class=travel>${r.instr}</div>`}
 }
 document.getElementById('routeout').innerHTML=ro;
+updateLive(); // light up live/next on the route steps too
 document.getElementById('covchips').innerHTML=D.covered.map(t=>`<span class=chip>${esc(t)}</span>`).join('');
 document.getElementById('missnote').innerHTML=`<b>${D.missed.length} of 20 teams not covered:</b> ${D.missed.map(esc).join(', ')}.<br>`+
  `• <b>10th Mtn Whiskey</b> — skipped by choice for the shorter day (only plays the 1:30 &amp; 2:15 Ford games). Want it? Use the <i>Fuller day</i> option below.<br>`+
@@ -369,7 +438,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')){
 }
 </script></body></html>"""
 
-HTML=HTML.replace("__DATA__",json.dumps(DATA)).replace("__NGAMES__",str(len(g)))
+HTML=HTML.replace("__DATA__",json.dumps(DATA)).replace("__NGAMES__",str(len(g))).replace("__VERIFIED__",TRANSIT_VERIFIED)
 
 # ---- PWA: manifest + offline service worker (installable, works offline on-site) ----
 MANIFEST=json.dumps({
@@ -407,3 +476,6 @@ print("focus notes:")
 for r in gameobjs:
     if r.get('focus'): print("  ",r['time'],r['field'],"->",re.sub('<[^>]+>','',r['focus']))
 print("route .ics events:",route_ics.count("BEGIN:VEVENT"),"| full .ics events:",full_ics.count("BEGIN:VEVENT"))
+print("transit feasibility:")
+for ok,msg in FEAS:
+    print(("  ✓ " if ok else "  ⚠ TIGHT — ")+msg)
