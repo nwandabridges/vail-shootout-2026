@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-import json, re, datetime
+import json, re, datetime, os
 
-g = json.load(open("games.json"))
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+PHOTO = "/Volumes/Photography"
+# Build onto the photo drive when it's mounted (the normal publish flow);
+# otherwise build straight into the repo so the page can be refreshed locally.
+OUT = PHOTO if os.path.isdir(PHOTO) else REPO
+GAMES = "games.json" if os.path.exists("games.json") else os.path.join(REPO, "data", "games.json")
+
+g = json.load(open(GAMES))
 def t24(s):
     m=re.match(r"(\d{1,2}):(\d{2})\s*([AP]M)",s)
     if not m: return 9999
@@ -43,7 +51,7 @@ def game(tm,fld):
 
 # ---- Day 1 CAR-FREE shorter-day route ----
 STEPS=[
- ("travel","🚌 <b>7:43a · Sun Vail → Ford Field.</b> Catch the <b>Sandstone</b> bus (7:43a) → <b>Vail Transportation Center</b> (~7:45a). From there it's a <b>~12-min walk east</b> to Ford Field (along the frontage/Gore Valley Trail) — you'll reach the field right around the 8:00 faceoff.<br><small>It's tight; if you'd rather not rush, the 8:45 game is an easy backup (you'd give up either Silverbacks or Mr Boh).</small>"),
+ ("travel","🚌 <b>7:23a · Sun Vail → Ford Field.</b> Catch the <b>Sandstone</b> bus (7:23a) → <b>Vail Transportation Center</b> (~7:25a). From there it's a <b>~12-min walk east</b> to Ford Field (along the frontage/Gore Valley Trail) — you'll arrive ~7:40a, comfortably ahead of the 8:00 faceoff.<br><small>Easy buffer: time to grab coffee at the Village or settle in before the first whistle.</small>"),
  ("game","8:00 AM","Ford - Ford 2"),
  ("walk","↔ 2-min walk between the two Ford Park fields"),
  ("game","8:45 AM","Ford - Field 1"),
@@ -54,11 +62,11 @@ STEPS=[
  ("travel","🚶 <b>~7-min walk</b> back Athletic → Ford Park."),
  ("game","12:00 PM","Ford - Field 1"),
  ("game","12:45 PM","Ford - Field 1"),
- ("lunch","🍔 <b>Lunch — grab-and-go ~1:20p.</b> Your games run back-to-back, so your meal break is the ride to East Vail. Easiest: grab food in <b>Vail Village at the Transportation Center while you transfer</b>, or pack a sandwich to eat on the bus. (The Village, which you pass through, has by far the most options.)"),
- ("travel","🚌 <b>~1:20p · Ford Park → Vail Mountain School (East Vail).</b> Leave right after the 12:45 game. <b>In-Town Shuttle</b> from Ford Park (every 7–10 min) → <b>Vail Transportation Center</b> (~10 min). Transfer to the <b>East Vail</b> route (every ~15 min) → <b>Booth Falls</b> stop → 3-min walk to the school. ~35–40 min; arrive ~2:00p, just ahead of the 2:15 game."),
+ ("lunch","🍔 <b>Lunch — ~1:30–1:58p at Ford Park.</b> The 12:45 game wraps ~1:30 and your East Vail bus leaves Ford at 1:58 — grab food near Ford Park or pack a sandwich for the ride."),
+ ("travel","🚌 <b>Ford Park → Vail Mountain School (East Vail).</b> The <b>East Vail</b> bus picks up right at <b>Ford Park at 1:58p</b> (no transfer) → <b>Booth Falls</b> stop, arriving <b>~2:08p</b> → 3-min walk to the school, just ahead of the 2:15 game."),
  ("game","2:15 PM","Vail Mountain School"),
  ("game","3:00 PM","Vail Mountain School"),
- ("travel","🚌 <b>~3:35p · Vail Mtn School → Sun Vail.</b> Walk to the Booth Falls stop → <b>East Vail</b> route → <b>Vail Transportation Center</b> → transfer to the <b>Sandstone</b> bus → Sun Vail. ~40 min. <b>Home by ~4:15p.</b>"),
+ ("travel","🚌 <b>3:27p · Vail Mtn School → home.</b> Walk to the <b>Booth Falls</b> stop and catch the <b>3:27p East Vail</b> bus → <b>Vail Transportation Center</b>, then transfer to the <b>West Vail Red</b> route departing <b>3:40p</b>."),
 ]
 route=[]
 for s in STEPS:
@@ -125,8 +133,8 @@ def calendar(events,name):
 
 route_ics=calendar([vevent(x,"📷 ") for x in gameobjs],"My Vail Lax Route — Day 1")
 full_ics =calendar([vevent(x) for x in sorted(g,key=lambda r:(r['date'],r['t']))],"Vail Lax Shootout 2026 — Full Schedule")
-open("/Volumes/Photography/vail_day1_route.ics","w",newline="").write(route_ics)
-open("/Volumes/Photography/vail_full_schedule.ics","w",newline="").write(full_ics)
+open(os.path.join(OUT,"vail_day1_route.ics"),"w",newline="").write(route_ics)
+open(os.path.join(OUT,"vail_full_schedule.ics"),"w",newline="").write(full_ics)
 
 DATA={'games':sorted(g,key=lambda r:(r['date'],r['venue'],r['field'],r['t'])),
       'route':route,'covered':covered,'missed':missed,
@@ -143,6 +151,8 @@ HTML = r"""<!DOCTYPE html><html lang=en><head><meta charset=utf-8>
 <meta name=apple-mobile-web-app-status-bar-style content=black-translucent>
 <meta name=apple-mobile-web-app-title content="Vail Lax">
 <link rel=icon href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23ef4444'/%3E%3Ctext x='8' y='12' font-size='11' text-anchor='middle' fill='white'%3EV%3C/text%3E%3C/svg%3E">
+<link rel=manifest href="manifest.webmanifest">
+<link rel=apple-touch-icon href="icon-180.png">
 <title>Vail Lacrosse Shootout 2026 — Schedule & Photo Route</title>
 <style>
 :root{--bg:#0f1720;--card:#1b2430;--ink:#e7edf3;--mut:#aab8c6;--line:#2c3a4a;
@@ -165,6 +175,16 @@ nav button.on{background:#b91c1c;color:#fff}
 .g .tm{font-weight:700;color:#ff9a9a;font-size:14px}
 .g .dv{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.3px}
 .g .mt{font-weight:600}.g.tbd .mt{color:var(--mut);font-weight:500;font-style:italic}
+.g.live{outline:2px solid var(--accent);background:#241a1a}
+.g.next{outline:1px solid #2f6b48}
+.badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.3px;border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.badge.live{background:var(--accent);color:#fff}
+.badge.next{background:#16301f;color:#7ee2a8;border:1px solid #2f6b48}
+.addcal{float:right;min-height:36px;min-width:44px;background:#15303f;border:1px solid var(--bus);color:#dff1fb;border-radius:8px;font-size:15px;padding:4px 9px;margin:-2px 0 0 8px;cursor:pointer}
+.addcal:active{background:#1d4257}
+.nowbar{display:none;align-items:center;gap:8px;background:#241a1a;border:1px solid var(--accent);border-radius:10px;padding:10px 12px;margin:0 0 10px;font-size:13px;color:#ffd9d9}
+.nowbar.show{display:flex}
+.nowbar button{margin-left:auto;min-height:36px;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:6px 12px;font-weight:700;font-size:13px;cursor:pointer}
 .focus{margin-top:6px;font-size:13px;color:#ffd9a8;background:#2a2113;border:1px solid #4a3a1a;border-radius:8px;padding:5px 8px}
 .Ford{border-left:4px solid var(--ford)}.Athletic{border-left:4px solid var(--ath)}
 .VMS{border-left:4px solid var(--vms)}.Edwards{border-left:4px solid var(--edw)}
@@ -211,6 +231,7 @@ a{color:var(--bus)}
    <label class=vh for=fField>Filter by field</label><select id=fField aria-label="Filter by field"></select>
    <label class=vh for=fSearch>Search team</label><input id=fSearch aria-label="Search team" placeholder="search team…">
  </div>
+ <div class=nowbar id=nowbar></div>
  <div id=schedout></div>
 </main>
 
@@ -244,16 +265,73 @@ a{color:var(--bus)}
 const D=__DATA__;
 function loc(f){return f.startsWith('Ford')?'Ford':f=='Athletic'?'Athletic':f.includes('Mountain')?'VMS':f.startsWith('EDW')?'Edwards':'x'}
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
-function gcard(x){return `<div class="g ${loc(x.field)} ${x.tbd?'tbd':''}">
+const SLOT=45; // games run 45-min slots
+const GBYID={}; D.games.forEach((x,i)=>{GBYID[x.gid||('g'+i)]=x});
+
+// ---- per-game "add to calendar" (.ics download) ----
+const ICS_ADDR={Ford:'Ford Park, 700 S Frontage Rd E, Vail, CO',Athletic:'Vail Athletic Fields, 646 Vail Valley Dr, Vail, CO',VMS:'Vail Mountain School, 3000 Booth Falls Rd, Vail, CO',Edwards:'Edwards Freedom Park, 300 Miller Ranch Rd, Edwards, CO'};
+function p2(n){return String(n).padStart(2,'0')}
+function icsT(date,mins){const m=mins+360;return date+'T'+p2(Math.floor(m/60))+p2(m%60)+'00Z'} // Vail = MDT (UTC-6)
+function icsEsc(s){return String(s).replace(/([\\;,])/g,'\\$1').replace(/\n/g,'\\n')}
+function icsFold(l){let o='';while(l.length>73){o+=l.slice(0,73)+'\r\n ';l=l.slice(73)}return o+l}
+function gameICS(x){
+  const L=loc(x.field);
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//vail-shootout-2026//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-TIMEZONE:America/Denver',
+   'BEGIN:VEVENT','UID:'+(x.gid||(x.date+x.t+x.field))+'@vail-shootout-2026','DTSTAMP:20260626T120000Z',
+   'DTSTART:'+icsT(x.date,x.t),'DTEND:'+icsT(x.date,x.t+SLOT),
+   'SUMMARY:'+icsEsc('📷 '+x.division+': '+x.team1+' vs '+x.team2),
+   'LOCATION:'+icsEsc((ICS_ADDR[L]||x.field)+' — '+x.field),
+   'DESCRIPTION:'+icsEsc('Vail Lacrosse Shootout 2026 · '+x.field),'END:VEVENT','END:VCALENDAR'];
+  return lines.map(icsFold).join('\r\n')+'\r\n';
+}
+function addCal(id){
+  const x=GBYID[id]; if(!x) return;
+  const blob=new Blob([gameICS(x)],{type:'text/calendar'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url; a.download='vail-'+(x.gid||id)+'.ics'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1500);
+}
+
+// ---- "now / next" live awareness (uses Mountain time regardless of device tz) ----
+function nowMtn(){
+  const s=new Date().toLocaleString('en-US',{timeZone:'America/Denver',hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  const m=s.match(/(\d+)\/(\d+)\/(\d+)\D+(\d+):(\d+)/); if(!m) return null;
+  let hh=+m[4]; if(hh==24) hh=0;
+  return {date:m[3]+p2(+m[1])+p2(+m[2]), mins:hh*60+(+m[5])};
+}
+function fmtIn(mins){if(mins<60)return 'in '+mins+'m';return 'in '+Math.floor(mins/60)+'h '+(mins%60)+'m'}
+function updateLive(){
+  const n=nowMtn(), bar=document.getElementById('nowbar');
+  const cards=[...document.querySelectorAll('#schedout .g')];
+  let nextStart=Infinity, liveN=0, liveCard=null, nextCard=null;
+  if(n) for(const c of cards){ if(c.dataset.date===n.date){const t=+c.dataset.t; if(t>n.mins&&t<nextStart) nextStart=t;} }
+  for(const c of cards){
+    c.classList.remove('live','next');
+    const b=c.querySelector('.gbadge'); if(b){b.className='gbadge';b.textContent='';}
+    if(!n||c.dataset.date!==n.date) continue;
+    const t=+c.dataset.t;
+    if(n.mins>=t&&n.mins<t+SLOT){c.classList.add('live');liveN++;if(b){b.className='gbadge badge live';b.textContent='● LIVE';}if(!liveCard)liveCard=c;}
+    else if(t===nextStart){c.classList.add('next');if(b){b.className='gbadge badge next';b.textContent='NEXT · '+fmtIn(t-n.mins);}if(!nextCard)nextCard=c;}
+  }
+  if(bar){
+    const target=liveCard||nextCard;
+    if(target){
+      bar.innerHTML=(liveN?('🔴 <b>'+liveN+' game'+(liveN>1?'s':'')+' live now</b>'):('⏭️ <b>Next game '+fmtIn(nextStart-n.mins)+'</b>'))+' <button type=button>Jump ▾</button>';
+      bar.classList.add('show');
+      bar.querySelector('button').onclick=()=>target.scrollIntoView({behavior:'smooth',block:'center'});
+    } else bar.classList.remove('show');
+  }
+}
+function gcard(x){return `<div class="g ${loc(x.field)} ${x.tbd?'tbd':''}" data-date="${x.date}" data-t="${x.t}">
   <div><div class=tm>${esc(x.time).replace(' ','')}</div></div>
-  <div><div class=dv>${esc(x.division)}</div><div class=mt>${esc(x.team1)} <small class=hint>vs</small> ${esc(x.team2)}</div></div></div>`}
+  <div><button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${x.gid}')">＋📅</button>
+  <div class=dv>${esc(x.division)}<span class=gbadge></span></div><div class=mt>${esc(x.team1)} <small class=hint>vs</small> ${esc(x.team2)}</div></div></div>`}
 function show(t){for(const s of ['sched','route']){const v=document.getElementById('view-'+s);v.hidden=(s!=t);
   const b=document.getElementById('tab-'+s);b.classList.toggle('on',s==t);b.setAttribute('aria-pressed',s==t)}}
 const fDay=document.getElementById('fDay'),fDiv=document.getElementById('fDiv'),fField=document.getElementById('fField'),fSearch=document.getElementById('fSearch');
 fDay.innerHTML='<option value="">All days</option>'+D.days.map(d=>`<option value="${d[0]}">${esc(d[1])}</option>`).join('');
 fDiv.innerHTML='<option value="">All divisions</option>'+D.divisions.map(d=>`<option>${esc(d)}</option>`).join('');
 fField.innerHTML='<option value="">All fields</option>'+D.fields.map(d=>`<option>${esc(d)}</option>`).join('');
-fDay.value=D.days[0][0];
+{const tn=nowMtn();fDay.value=(tn&&D.days.some(d=>d[0]===tn.date))?tn.date:D.days[0][0];}
 function render(){
   const dy=fDay.value,dv=fDiv.value,fl=fField.value,q=fSearch.value.toLowerCase();
   let gs=D.games.filter(x=>(!dy||x.date==dy)&&(!dv||x.division==dv)&&(!fl||x.field==fl)
@@ -266,14 +344,16 @@ function render(){
     out+=gcard(x);
   }
   document.getElementById('schedout').innerHTML=out||'<p class=sub>No games match.</p>';
+  updateLive();
 }
 [fDay,fDiv,fField].forEach(e=>e.onchange=render); fSearch.oninput=render; render();
+setInterval(updateLive,30000);
 document.getElementById('rTeams').textContent=D.covered.length;
 let ro='';
 for(const r of D.route){
   if(r.type=='game'){ro+=`<div class="routestep ${loc(r.field)}">
     <div><div class=tm>${esc(r.time).replace(' ','')}</div></div>
-    <div><div class=dv>${esc(r.division)} · ${esc(r.field)}</div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
+    <div>${r.gid?`<button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${r.gid}')">＋📅</button>`:''}<div class=dv>${esc(r.division)} · ${esc(r.field)}</div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
     ${r.focus?`<div class=focus>${r.focus}</div>`:''}</div></div>`}
   else if(r.type=='lunch'){ro+=`<div class=lunch>${r.instr}</div>`}
   else if(r.type=='walk'){ro+=`<div class=travel style="border-style:dotted">${r.instr}</div>`}
@@ -284,11 +364,44 @@ document.getElementById('covchips').innerHTML=D.covered.map(t=>`<span class=chip
 document.getElementById('missnote').innerHTML=`<b>${D.missed.length} of 20 teams not covered:</b> ${D.missed.map(esc).join(', ')}.<br>`+
  `• <b>10th Mtn Whiskey</b> — skipped by choice for the shorter day (only plays the 1:30 &amp; 2:15 Ford games). Want it? Use the <i>Fuller day</i> option below.<br>`+
  `• <b>Old Big Green</b> &amp; <b>Team 41</b> — boxed out by the 10:30–12:00 Grandmasters crunch (8 teams across 3 parallel fields). To grab them you'd field-hop (≈15–20 min/game): Old Big Green on Ford Field 1, Team 41 on the Athletic field.`;
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script></body></html>"""
 
 HTML=HTML.replace("__DATA__",json.dumps(DATA)).replace("__NGAMES__",str(len(g)))
-open("/Volumes/Photography/vail_tournament.html","w").write(HTML)
-print("Wrote vail_tournament.html + 2 .ics files")
+
+# ---- PWA: manifest + offline service worker (installable, works offline on-site) ----
+MANIFEST=json.dumps({
+  "name":"Vail Lacrosse Shootout 2026","short_name":"Vail Lax",
+  "description":"Schedule & photo-route plan for the Vail Lacrosse Shootout 2026.",
+  "start_url":".","scope":".","display":"standalone","orientation":"portrait",
+  "background_color":"#0f1720","theme_color":"#0f1720",
+  "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+           {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]
+}, indent=2)
+# Bump CACHE when assets change so clients pick up the new build.
+SW=r"""const CACHE='vail-lax-v1';
+const ASSETS=['./','index.html','manifest.webmanifest','vail_day1_route.ics','vail_full_schedule.ics','icon-192.png','icon-512.png','icon-180.png'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{
+  const req=e.request; if(req.method!=='GET') return;
+  const isHTML = req.mode==='navigate' || (req.headers.get('accept')||'').includes('text/html');
+  if(isHTML){ // network-first so a fresh schedule wins when online; cached page when offline
+    e.respondWith(fetch(req).then(r=>{const c=r.clone();caches.open(CACHE).then(x=>x.put('index.html',c));return r}).catch(()=>caches.match('index.html')));
+  } else { // cache-first for static assets
+    e.respondWith(caches.match(req,{ignoreSearch:true}).then(r=>r||fetch(req).then(resp=>{const c=resp.clone();caches.open(CACHE).then(x=>x.put(req,c));return resp})));
+  }
+});
+"""
+open(os.path.join(OUT,"manifest.webmanifest"),"w").write(MANIFEST)
+open(os.path.join(OUT,"sw.js"),"w").write(SW)
+
+# On the photo drive, deploy.sh copies the build into the repo; locally, write index.html directly.
+html_out = os.path.join(OUT,"vail_tournament.html") if OUT==PHOTO else os.path.join(REPO,"index.html")
+open(html_out,"w").write(HTML)
+print(f"Wrote {os.path.basename(html_out)} + manifest.webmanifest + sw.js + 2 .ics files -> {OUT}")
 print(f"games={len(g)} route_games={len(gameobjs)} covered={len(covered)} missed={missed}")
 print("focus notes:")
 for r in gameobjs:

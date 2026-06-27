@@ -14,8 +14,9 @@ fi
 cp "$SRC" index.html
 # refresh data snapshots if present alongside the build
 [ -f /Volumes/Photography/vail_schedule_master.csv ] && cp /Volumes/Photography/vail_schedule_master.csv data/ || true
-# publish calendar files (served at site root for the download links)
-for f in /Volumes/Photography/vail_day1_route.ics /Volumes/Photography/vail_full_schedule.ics; do
+# publish calendar files + PWA assets (served at site root)
+for f in /Volumes/Photography/vail_day1_route.ics /Volumes/Photography/vail_full_schedule.ics \
+         /Volumes/Photography/manifest.webmanifest /Volumes/Photography/sw.js; do
   [ -f "$f" ] && cp "$f" . || true
 done
 

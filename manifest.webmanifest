@@ -1,0 +1,25 @@
+{
+  "name": "Vail Lacrosse Shootout 2026",
+  "short_name": "Vail Lax",
+  "description": "Schedule & photo-route plan for the Vail Lacrosse Shootout 2026.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1720",
+  "theme_color": "#0f1720",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
