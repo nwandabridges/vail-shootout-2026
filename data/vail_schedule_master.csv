@@ -1,0 +1,128 @@
+date,time,venue,field,division,team1,team2
+06/27,10:30 AM,Vail – Athletic Field,Athletic,Grandmasters,Tivoli Brewery,Team 41
+06/27,11:15 AM,Vail – Athletic Field,Athletic,Grandmasters,Tivoli Brewery,Team 8
+06/27,12:00 PM,Vail – Athletic Field,Athletic,Grandmasters,Team 8,Team 41
+06/27,8:00 AM,Vail – Ford Park,Ford - Field 1,Zenmasters,Silverbacks,Grateful Undead
+06/27,8:45 AM,Vail – Ford Park,Ford - Field 1,Zenmasters,Grateful Undead,Los Abuelos
+06/27,9:30 AM,Vail – Ford Park,Ford - Field 1,Zenmasters,Silverbacks,Los Abuelos
+06/27,10:30 AM,Vail – Ford Park,Ford - Field 1,Grandmasters,Old Big Green,Bushwood
+06/27,11:15 AM,Vail – Ford Park,Ford - Field 1,Grandmasters,Old Big Green,Graybirds
+06/27,12:00 PM,Vail – Ford Park,Ford - Field 1,Grandmasters,Bushwood,Graybirds
+06/27,12:45 PM,Vail – Ford Park,Ford - Field 1,Supermasters,Navy Old Goats,Elysian Brewery
+06/27,1:30 PM,Vail – Ford Park,Ford - Field 1,Supermasters,Elysian Brewery,10th Mtn Whiskey
+06/27,2:15 PM,Vail – Ford Park,Ford - Field 1,Supermasters,Navy Old Goats,10th Mtn Whiskey
+06/27,8:00 AM,Vail – Ford Park,Ford - Ford 2,Zenmasters,Mr Boh,Middlebury
+06/27,8:45 AM,Vail – Ford Park,Ford - Ford 2,Zenmasters,Navy Old Goats,Middlebury
+06/27,9:30 AM,Vail – Ford Park,Ford - Ford 2,Zenmasters,Mr Boh,Navy Old Goats
+06/27,10:30 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Generals,Navy Grand Goats
+06/27,11:15 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Navy Grand Goats,Middlebury
+06/27,12:00 PM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Middlebury,Generals
+06/27,12:45 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Domewood,Outlaws
+06/27,1:30 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Old Birds,Laxgear/Silver Oysters
+06/27,2:15 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Outlaws,Old Birds
+06/27,3:00 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Laxgear/Silver Oysters,Domewood
+06/27,3:45 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Outlaws,Laxgear/Silver Oysters
+06/27,4:30 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Domewood,Old Birds
+06/28,8:00 AM,Vail – Athletic Field,Athletic,Zenmasters,Pool A 3rd Place,Pool B 3rd Place
+06/28,9:30 AM,Vail – Athletic Field,Athletic,Grandmasters,Pool A 3rd Place,Pool B 3rd Place
+06/28,8:00 AM,Vail – Ford Park,Ford - Field 1,Zenmasters,Pool A 1st Place,Pool B 2nd Place
+06/28,9:30 AM,Vail – Ford Park,Ford - Field 1,Grandmasters,Pool A 1st Place,Pool C 1st Place
+06/28,11:00 AM,Vail – Ford Park,Ford - Field 1,Grandmasters,Pool A 2nd Place,Pool B 2nd Place
+06/28,12:30 PM,Vail – Ford Park,Ford - Field 1,Supermasters,Conference A 1st Place,Conference B 2nd Place
+06/28,2:00 PM,Vail – Ford Park,Ford - Field 1,Supermasters,Conference A 2nd Place,Conference B 1st Place
+06/28,8:00 AM,Vail – Ford Park,Ford - Ford 2,Zenmasters,Pool B 1st Place,Pool A 2nd Place
+06/28,9:30 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Pool B 1st Place,Pool C 2nd Place
+06/28,11:00 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Bracket Loser B12,Pool C 3rd Place
+06/28,12:30 PM,Vail – Ford Park,Ford - Ford 2,Supermasters,Conference A 3rd Place,Conference B 4th Place
+06/28,2:00 PM,Vail – Ford Park,Ford - Ford 2,Supermasters,Conference A 3rd Place,Conference B 3rd Place
+06/29,8:00 AM,Vail – Athletic Field,Athletic,Zenmasters,Unknown,Unknown
+06/29,9:30 AM,Vail – Athletic Field,Athletic,Grandmasters,Pool A 2nd Place,Pool B 3rd Place
+06/29,11:00 AM,Vail – Athletic Field,Athletic,Grandmasters,Pool A 2nd Place,Pool C 3rd Place
+06/29,9:00 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,10th Mountain,CO Command Carolina
+06/29,11:20 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,CO Command Navy,10th Mountain
+06/29,1:00 PM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,Hero's White,Houston Heat
+06/29,9:00 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,CO Command Navy,Houston Heat
+06/29,10:10 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,M&D Black,Hero's Green
+06/29,11:20 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,CO Command Carolina,Hero's White
+06/29,12:30 PM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,M&D Black,Team 180
+06/29,2:00 PM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,Hero's Green,Team 180
+06/29,8:00 AM,Vail – Ford Park,Ford - Field 1,Zenmasters,Bracket Winner B7,Bracket Winner B8
+06/29,9:30 AM,Vail – Ford Park,Ford - Field 1,Grandmasters,Bracket Winner B10,Bracket Winner B11
+06/29,11:00 AM,Vail – Ford Park,Ford - Field 1,Supermasters,Bracket Winner B10,Bracket Winner B12
+06/29,12:30 PM,Vail – Ford Park,Ford - Field 1,U19 Boys,ADRLN,Flip's Pirates
+06/29,2:00 PM,Vail – Ford Park,Ford - Field 1,U19 Boys,Team CO 4A,ADRLN
+06/29,8:00 AM,Vail – Ford Park,Ford - Ford 2,Zenmasters,Unknown,Unknown
+06/29,9:30 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Bracket Loser B10,Bracket Loser B11
+06/29,11:00 AM,Vail – Ford Park,Ford - Ford 2,Grandmasters,Pool A 3rd Place,Pool B 2nd Place
+06/29,12:30 PM,Vail – Ford Park,Ford - Ford 2,U19 Boys,Laxachussetts,Team CO 5A
+06/29,2:00 PM,Vail – Ford Park,Ford - Ford 2,U19 Boys,Team CO 5A,Flip's Pirates
+06/29,9:30 AM,Vail – Mtn School,Vail Mountain School,Supermasters,Unknown,Unknown
+06/29,11:00 AM,Vail – Mtn School,Vail Mountain School,Supermasters,Unknown,Unknown
+06/29,12:30 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Unknown,Unknown
+06/29,1:45 PM,Vail – Mtn School,Vail Mountain School,Supermasters,Unknown,Unknown
+06/30,9:00 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,CO Command Navy,CO Command Carolina
+06/30,10:30 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,Houston Heat,10th Mountain
+06/30,9:00 AM,Edwards (down-valley),EDW - Edwards 3,U19 Girls,M&D Black,Team 180
+06/30,10:30 AM,Edwards (down-valley),EDW - Edwards 3,U19 Girls,M&D Black,Hero's Green
+06/30,12:00 PM,Edwards (down-valley),EDW - Edwards 3,U19 Girls,Team 180,Hero's Green
+06/30,9:00 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,Hero's White,10th Mountain
+06/30,10:30 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,Hero's White,CO Command Navy
+06/30,12:00 PM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,Houston Heat,CO Command Carolina
+06/30,10:00 AM,Vail – Ford Park,Ford - Field 1,U19 Boys,Laxachussetts,Team CO 4A
+06/30,11:30 AM,Vail – Ford Park,Ford - Field 1,U19 Boys,Laxachussetts,Flip's Pirates
+06/30,1:00 PM,Vail – Ford Park,Ford - Field 1,U19 Boys,Flip's Pirates,Team CO 4A
+06/30,10:00 AM,Vail – Ford Park,Ford - Ford 2,U19 Boys,ADRLN,Team CO 5A
+07/01,8:30 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,Silver Division 3rd Place,Silver Division 5th Place
+07/01,9:00 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,Silver Division 4th Place,Silver Division 5th Place
+07/01,9:30 AM,Edwards (down-valley),EDW - Edwards 2,U19 Girls,Silver Division 4th Place,Silver Division 3rd Place
+07/01,9:00 AM,Edwards (down-valley),EDW - Edwards Turf,U19 Girls,Silver Division 2nd Place,Silver Division 1st Place
+07/01,9:00 AM,Vail – Ford Park,Ford - Field 1,U19 Boys,Pool 3rd Place,Pool 4th Place
+07/01,12:00 PM,Vail – Ford Park,Ford - Field 1,U19 Boys,Pool 1st Place,Pool 2nd Place
+07/01,10:30 AM,Vail – Ford Park,Ford - Ford 2,U19 Boys,Pool 5th Place,Bracket Loser B9
+07/02,9:00 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Northmen,10th Mountain
+07/02,10:00 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Northmen,Team Craig
+07/02,11:00 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Team Craig,10th Mountain
+07/02,12:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Mohawk TIle,10th Mountain OTF
+07/02,1:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Mohawk TIle,Buffs
+07/02,2:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Buffs,10th Mountain OTF
+07/02,9:00 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,RM Oysters,GCC CORP Alumni
+07/02,10:00 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,GCC CORP Alumni,Northside Boogeymen
+07/02,11:00 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,RM Oysters,Northside Boogeymen
+07/03,8:30 AM,Vail – Athletic Field,Athletic,Women's Elite,Crossroads,Reapers
+07/03,9:40 AM,Vail – Athletic Field,Athletic,Women's Elite,Krash,Shots & Shooters
+07/03,10:50 AM,Vail – Athletic Field,Athletic,Women's Elite,Pink Pony,Reapers
+07/03,12:00 PM,Vail – Athletic Field,Athletic,Women's Elite,WOBZ,Shots & Shooters
+07/03,1:10 PM,Vail – Athletic Field,Athletic,Women's Elite,Pink Pony,Crossroads
+07/03,2:20 PM,Vail – Athletic Field,Athletic,Women's Elite,WOBZ,Krash
+07/03,9:00 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Seed 4,Seed 5
+07/03,10:30 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Seed 1,Seed 8
+07/03,12:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Seed 9,Bracket Loser B10
+07/03,2:00 PM,Vail – Ford Park,Ford - Field 1,Masters,10th Mtn Whiskey,Montucky Old Snacks
+07/03,9:00 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Seed 3,Seed 6
+07/03,10:30 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Seed 2,Seed 7
+07/03,12:00 PM,Vail – Ford Park,Ford - Ford 2,Masters,Outlaws,10th Mtn Whiskey
+07/03,2:00 PM,Vail – Ford Park,Ford - Ford 2,Masters,Off In The Woods,Outlaws
+07/04,8:30 AM,Vail – Athletic Field,Athletic,Women's Elite,Pool A 1st Place,Pool B 3rd Place
+07/04,9:40 AM,Vail – Athletic Field,Athletic,Women's Elite,Pool A 2nd Place,Pool B 2nd Place
+07/04,10:50 AM,Vail – Athletic Field,Athletic,Women's Elite,Pool A 3rd Place,Pool B 1st Place
+07/04,12:00 PM,Vail – Athletic Field,Athletic,Women's Elite,Pool B 2nd Place,Pool A 1st Place
+07/04,1:10 PM,Vail – Athletic Field,Athletic,Women's Elite,Pool B 3rd Place,Pool A 3rd Place
+07/04,2:20 PM,Vail – Athletic Field,Athletic,Women's Elite,Pool B 1st Place,Pool A 2nd Place
+07/04,9:00 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Bracket Loser B11,Bracket Loser B12
+07/04,10:30 AM,Vail – Ford Park,Ford - Field 1,Men's Elite,Bracket Winner B10,Bracket Winner B11
+07/04,12:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Bracket Winner B12,Bracket Winner B13
+07/04,2:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Bracket Loser B10,Bracket Loser B17
+07/04,9:00 AM,Vail – Ford Park,Ford - Ford 2,Masters,Off In The Woods,Montucky Old Snacks
+07/04,10:30 AM,Vail – Ford Park,Ford - Ford 2,Masters,Outlaws,Montucky Old Snacks
+07/04,12:00 PM,Vail – Ford Park,Ford - Ford 2,Masters,10th Mtn Whiskey,Off In The Woods
+07/04,12:00 PM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Bracket Loser B13,Seed 9
+07/05,8:00 AM,Vail – Athletic Field,Athletic,Women's Elite,Unknown,Unknown
+07/05,9:00 AM,Vail – Athletic Field,Athletic,Women's Elite,Unknown,Unknown
+07/05,9:00 AM,Vail – Ford Park,Ford - Field 1,Masters,Pool A 1st Place,Pool A 2nd Place
+07/05,10:30 AM,Vail – Ford Park,Ford - Field 1,Women's Elite,Seed 2,Seed 1
+07/05,12:00 PM,Vail – Ford Park,Ford - Field 1,Men's Elite,Bracket Winner B15,Bracket Winner B16
+07/05,8:30 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Bracket Winner B17,Bracket Winner B18
+07/05,9:45 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Seed 9,Bracket Loser B22
+07/05,11:00 AM,Vail – Ford Park,Ford - Ford 2,Men's Elite,Bracket Loser B15,Bracket Loser B16
+07/05,9:00 AM,Vail – Mtn School,Vail Mountain School,Masters,Pool A 3rd Place,Pool A 4th Place
+07/05,10:30 AM,Vail – Mtn School,Vail Mountain School,Men's Elite,Bracket Loser B17,Bracket Loser B18
