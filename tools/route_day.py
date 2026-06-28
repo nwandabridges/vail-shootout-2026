@@ -31,7 +31,7 @@ def loc(f):
     if "Mountain School" in f: return "VMS"
     if f.startswith("EDW"): return "Edwards"
     return f
-PH = re.compile(r"(Pool|Bracket|Conference|Place|Winner|Loser|Seed|TBD|Unknown|^\d+(st|nd|rd|th))", re.I)
+PH = re.compile(r"(Pool|Bracket|Conference|Place|Winner|Loser|Seed|TBD|Unknown)", re.I)  # not bare ordinals ("10th Mtn Whiskey" is real)
 def tbd(t): return bool(PH.search(t)) if t else True
 
 DWELL, SLOT = 35, 45

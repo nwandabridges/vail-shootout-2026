@@ -21,30 +21,30 @@ single game** to your calendar (not just the whole route).
 ## Updating each day
 
 The route is planned the night before (bracket games only get real team names
-once pools resolve). To refresh and publish:
+once pools resolve). Everything builds in this repo — no external drive.
 
-1. Re-scrape + rebuild the page on the photo drive:
+1. Re-scrape the resolved schedule into `data/games.json`:
    ```sh
-   cd /Volumes/Photography   # or the tools/ dir here
-   python3 tools/fetch_parse.py     # re-fetch division pages -> data/games.json
-   python3 tools/parse2.py          # clean parse
-   # edit tools/route_day1.py for the target day, then:
-   python3 tools/generate_html.py   # writes the photo-drive build (or builds locally — see below)
+   cd tools
+   python3 fetch_parse.py     # download division pages -> tools/divpages/
+   python3 parse2.py          # parse -> tools/games.json
+   cp games.json ../data/games.json
+   cd ..
    ```
-2. Publish:
+   `fetch_parse.py` caches pages in `tools/divpages/` — `rm -rf tools/divpages`
+   to force a fresh fetch. If Python's downloader hits a macOS SSL error, fetch
+   the pages with `curl` into `tools/divpages/<division-id>.html` first, then
+   run `parse2.py`.
+2. Build + publish:
    ```sh
-   ./deploy.sh                      # copies the fresh build -> repo root, commits, pushes
+   ./deploy.sh                # runs generate_html.py, commits, pushes
    ```
    GitHub Pages redeploys automatically (~30–60s).
 
-`generate_html.py` builds onto `/Volumes/Photography` when that drive is
-mounted (the normal flow `deploy.sh` expects). **When the drive is not
-mounted it builds straight into the repo** — writing `index.html`,
-`manifest.webmanifest`, `sw.js`, and the two `.ics` files in place — so you
-can edit `tools/generate_html.py` and refresh the page without the drive.
-It reads `data/games.json` automatically in that case. The PWA icons
-(`icon-*.png`) are committed assets; regenerate them with PIL only if the
-branding changes.
+`tools/generate_html.py` reads `data/games.json` and writes `index.html`,
+`manifest.webmanifest`, `sw.js`, and the `.ics` files directly into the repo
+root. The PWA icons (`icon-*.png`) are committed assets; regenerate them with
+PIL only if the branding changes.
 
 ## Files
 

@@ -42,49 +42,21 @@ LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
 END:VEVENT
 BEGIN:VEVENT
-UID:h20260621040331553f1f353e601964c@vail-shootout-2026
-DTSTAMP:20260626T120000Z
-DTSTART:20260627T171500Z
-DTEND:20260627T180000Z
-SUMMARY:📷 Grandmasters: Tivoli Brewery vs Team 8
-LOCATION:Vail Athletic Fields\, 646 Vail Valley Dr\, Vail\, CO — Athlet
- ic
-DESCRIPTION:Vail Lacrosse Shootout 2026 · Athletic
-END:VEVENT
-BEGIN:VEVENT
-UID:h2026062103593840283d8501e70be46@vail-shootout-2026
-DTSTAMP:20260626T120000Z
-DTSTART:20260627T180000Z
-DTEND:20260627T184500Z
-SUMMARY:📷 Grandmasters: Bushwood vs Graybirds
-LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
-DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
-END:VEVENT
-BEGIN:VEVENT
-UID:h20260621033115693017874f1139a4e@vail-shootout-2026
+UID:h20260621033156800ee94d3104c984a@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260627T184500Z
 DTEND:20260627T193000Z
-SUMMARY:📷 Supermasters: Navy Old Goats vs Elysian Brewery
-LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
-DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
-END:VEVENT
-BEGIN:VEVENT
-UID:h20260621033515056b565ac0e6b2b43@vail-shootout-2026
-DTSTAMP:20260626T120000Z
-DTSTART:20260627T201500Z
-DTEND:20260627T210000Z
-SUMMARY:📷 Supermasters: Outlaws vs Old Birds
+SUMMARY:📷 Supermasters: Domewood vs Outlaws
 LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
  Mountain School
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
 END:VEVENT
 BEGIN:VEVENT
-UID:h20260621033553746db31b0511a9644@vail-shootout-2026
+UID:h2026062103331810947dca8e7c49e43@vail-shootout-2026
 DTSTAMP:20260626T120000Z
-DTSTART:20260627T210000Z
-DTEND:20260627T214500Z
-SUMMARY:📷 Supermasters: Laxgear/Silver Oysters vs Domewood
+DTSTART:20260627T193000Z
+DTEND:20260627T201500Z
+SUMMARY:📷 Supermasters: Old Birds vs Laxgear/Silver Oysters
 LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
  Mountain School
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
