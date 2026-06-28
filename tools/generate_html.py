@@ -46,8 +46,8 @@ for x in g:
     x['t']=t24(x['time']); x['venue']=venue(x['field']); x['dlabel']=dlabel(x['date'])
     x['tbd']=tbd(x['team1']) or tbd(x['team2'])
 
-def game(tm,fld):
-    return next((x for x in g if x['date']=='20260627' and x['t']==t24(tm) and x['field']==fld),None)
+def game(tm,fld,date="20260627"):
+    return next((x for x in g if x['date']==date and x['t']==t24(tm) and x['field']==fld),None)
 
 # ---- Transit: SINGLE SOURCE OF TRUTH for bus times -----------------------------
 # Every bus time the route mentions lives here exactly once, so the prose can't
@@ -128,35 +128,66 @@ STEPS=[
  ("game","3:00 PM","Vail Mountain School"),
  ("travel",TRANSIT_HOME),
 ]
-route=[]
-for s in STEPS:
-    if s[0]=="game":
-        x=game(s[1],s[2])
-        if x: route.append({'type':'game',**x})
-    else:
-        route.append({'type':s[0],'instr':s[1]})
+def build_route(steps, date, seen=None, highlight_new=False):
+    """Turn a STEPS list into a route (games resolved + focus notes).
+    seen = teams already photographed on prior days; highlight_new flags
+    first-time teams (used Day 2+ to steer toward unseen teams)."""
+    seen = seen or set()
+    route=[]
+    for s in steps:
+        if s[0]=="game":
+            x=game(s[1],s[2],date)
+            if x: route.append({'type':'game',**x})
+        else:
+            route.append({'type':s[0],'instr':s[1]})
+    rgames=[r for r in route if r['type']=='game']
+    def appearances(team):  # times (mins) this team appears across the ROUTE
+        return sorted(r['t'] for r in rgames if team in (r['team1'],r['team2']))
+    for r in rgames:
+        new=[t for t in (r['team1'],r['team2']) if not tbd(t) and t not in seen]
+        if highlight_new and new:
+            lab="NEW team"+("s" if len(new)>1 else "")
+            r['focus']=f"🎯 <b>{lab}:</b> "+", ".join(f"<b>{t}</b>" for t in new)+f" — first time shooting {'them' if len(new)>1 else 'this team'}."
+            continue
+        a,b=r['team1'],r['team2']
+        ta,tb=appearances(a),appearances(b)
+        if len(ta)==len(tb):
+            r['focus']=None; continue
+        rarer,other=(a,b) if len(ta)<len(tb) else (b,a)
+        ot=[t for t in (appearances(other)) if t!=r['t']]
+        fut=[t for t in ot if t>r['t']]; past=[t for t in ot if t<r['t']]
+        if fut:
+            r['focus']=f"🎯 Focus on <b>{rarer}</b> — you'll catch {other} again at {fmt12(fut[0])}."
+        else:
+            r['focus']=f"🎯 Focus on <b>{rarer}</b> — you already have {other} (from {fmt12(past[-1])})."
+    return route, rgames
 
-# ---- focus notes: per route game, prioritise the team you'll catch fewer times today ----
-rgames=[r for r in route if r['type']=='game']
-def appearances(team):  # times (mins) this team appears across the ROUTE
-    return sorted(r['t'] for r in rgames if team in (r['team1'],r['team2']))
-for r in rgames:
-    a,b=r['team1'],r['team2']
-    ta,tb=appearances(a),appearances(b)
-    if len(ta)==len(tb):
-        r['focus']=None; continue
-    rarer,other=(a,b) if len(ta)<len(tb) else (b,a)
-    ot=[t for t in (appearances(other)) if t!=r['t']]
-    fut=[t for t in ot if t>r['t']]; past=[t for t in ot if t<r['t']]
-    if fut:
-        r['focus']=f"🎯 Focus on <b>{rarer}</b> — you'll catch {other} again at {fmt12(fut[0])}."
-    else:
-        r['focus']=f"🎯 Focus on <b>{rarer}</b> — you already have {other} (from {fmt12(past[-1])})."
-
-gameobjs=rgames
+route, gameobjs = build_route(STEPS, "20260627")
 covered=sorted(set(t for r in gameobjs for t in (r['team1'],r['team2'])))
 alld1=sorted(set(t for x in g if x['date']=='20260627' for t in (x['team1'],x['team2'])))
 missed=[t for t in alld1 if t not in covered]
+
+# ---- Day 2 (Sun Jun 28): half-day, all at Ford; steer to the few teams not yet shot ----
+# Andrew's ACTUAL Day-1 capture was the "stay at Ford" alternative (16 teams:
+# shot Old Big Green; skipped Tivoli Brewery + Team 8), so seed Day 2 from that.
+SEEN_D2 = (set(covered) - {"Tivoli Brewery","Team 8"}) | {"Old Big Green"}
+D2_OUT  = ("🚶🚌 <b>Get to Ford by ~9:20 — no rush.</b> Take any <b>Sandstone</b> bus to the Transportation Center "
+  "then the ~12-min walk, or the <b>Golf Course</b> route straight to <b>Ford Park</b>."
+  + f' <a class=chk href="{maps_transit("Sun Vail, Vail, CO","Ford Park, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+D2_WAIT = "🕐 <b>~45 min at Ford</b> between games — relax or grab a snack; both your new teams are on Ford's two fields."
+D2_HOME = ("🚌 <b>Head home from Ford</b> (done ~11:45, or after the optional afternoon re-shoots). <b>In-Town Shuttle</b> "
+  "or <b>Golf Course</b> route → <b>Vail Transportation Center</b> → <b>Sandstone</b> or <b>West Vail Red</b> home."
+  + f' <a class=chk href="{maps_transit("Ford Park, Vail, CO","Sun Vail, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+STEPS2=[
+ ("travel",D2_OUT),
+ ("game","9:30 AM","Ford - Field 1"),   # Graybirds vs Tivoli Brewery — NEW
+ ("travel",D2_WAIT),
+ ("game","11:00 AM","Ford - Ford 2"),   # Team 8 vs (bracket TBD) — NEW
+ ("travel",D2_HOME),
+]
+route2, gameobjs2 = build_route(STEPS2, "20260628", seen=SEEN_D2, highlight_new=True)
+covered2=sorted(set(t for r in gameobjs2 for t in (r['team1'],r['team2']) if not tbd(t)))
+new2=sorted(set(covered2)-SEEN_D2)
 
 # ---------- ICS calendar generation ----------
 def ics_escape(s):
@@ -192,12 +223,59 @@ def calendar(events,name):
     return "\r\n".join(head+events+["END:VCALENDAR"])+"\r\n"
 
 route_ics=calendar([vevent(x,"📷 ") for x in gameobjs],"My Vail Lax Route — Day 1")
+route2_ics=calendar([vevent(x,"📷 ") for x in gameobjs2],"My Vail Lax Route — Day 2")
 full_ics =calendar([vevent(x) for x in sorted(g,key=lambda r:(r['date'],r['t']))],"Vail Lax Shootout 2026 — Full Schedule")
 open(os.path.join(OUT,"vail_day1_route.ics"),"w",newline="").write(route_ics)
+open(os.path.join(OUT,"vail_day2_route.ics"),"w",newline="").write(route2_ics)
 open(os.path.join(OUT,"vail_full_schedule.ics"),"w",newline="").write(full_ics)
 
+# ---- per-day route content (intro / stat / notes / logistics) ----
+D1_INTRO=("🚌 <b>Car-free · shorter day</b> from Sun Vail · full Ford Park morning, out to East Vail after lunch, "
+  "done by ~3:30p · ~35 min per game · Sat Jun 27. All Town of Vail buses are <b>free</b>.")
+D1_MISSNOTE=(f"<b>{len(missed)} of {len(alld1)} teams not covered:</b> {', '.join(missed)}.<br>"
+  "• <b>10th Mtn Whiskey</b> — skipped by choice for the shorter day (only plays the 1:30 &amp; 2:15 Ford games). Want it? Use the <i>Fuller day</i> option below.<br>"
+  "• <b>Old Big Green</b> &amp; <b>Team 41</b> — boxed out by the 10:30–12:00 Grandmasters crunch (8 teams across 3 parallel fields). To grab them you'd field-hop (≈15–20 min/game): Old Big Green on Ford Field 1, Team 41 on the Athletic field.")
+D1_LOGISTICS="""<details><summary>🚌 Car-free logistics &amp; alternatives</summary>
+ <ul>
+  <li><b>All Town of Vail buses are free.</b> Hub is the <b>Vail Transportation Center</b> (Vail Village) — every route meets there to transfer.</li>
+  <li><b>In-Town Shuttle</b>: every 7–10 min; reaches <b>Ford Park</b> (via Vail Valley Dr) only <b>9a–9p</b>.</li>
+  <li><b>Golf Course route</b>: serves Ford Park/Athletic; first bus 7:40a, hourly 8:10a–5:10p — an alternate early-AM ride if you skip the walk.</li>
+  <li><b>East Vail route</b>: serves the <b>Booth Falls</b> stop by Vail Mountain School; ~15-min service from 6a.</li>
+  <li><b>Sandstone route</b>: your home stop at Sun Vail ↔ Transportation Center.</li>
+  <li><b>Easier morning (–1 team):</b> skip the 8:00 game and start at 8:45 — you'd miss either Silverbacks or Mr Boh.</li>
+  <li><b>Fuller day (+1 team, ends ~5p):</b> stay at Ford for the 1:30 game (adds 10th Mtn Whiskey, 18 teams), then ride to VMS for the 3:45 &amp; 4:30 games.</li>
+  <li><b>Stay at Ford, skip Athletic (net –1 team):</b> drop the 11:15 walk to Athletic — you'd give up <b>Tivoli Brewery</b> &amp; <b>Team 8</b> (seen nowhere else today) — and instead shoot <b>Old Big Green vs Graybirds</b> on Ford Field 1, grabbing the otherwise-missed <b>Old Big Green</b>. Saves the ~14-min round-trip walk; nets 16 teams instead of 17.</li>
+  <li>⚠️ Bus times verified <b>__VERIFIED__</b> against the published Town of Vail schedules; service can still change. Each bus step has a <b>“check live ↗”</b> link, or confirm departures on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
+ </ul></details>"""
+
+D2_INTRO=("📷 <b>Half-day · all at Ford Park</b> — only <b>"+str(len(new2))+" new teams</b> left to shoot "
+  "(<b>"+", ".join(new2)+"</b>), both done by ~11:45. No mid-day buses; sleep in — you only need Ford by ~9:20. Sun Jun 28.")
+D2_MISSNOTE=("<b>The 9:30 choice is permanent.</b> Ford <b>Field 1</b> has <b>Tivoli Brewery</b> (vs Graybirds); Ford <b>Ford 2</b> has "
+  "<b>Team 41</b> (vs Middlebury) at the same time. Tivoli Brewery, Team 41 &amp; Team 8 all play their <b>last tournament game today</b>, "
+  "so whichever you skip you won't get again — recommended: <b>Tivoli Brewery</b> now, then <b>Team 8</b> at 11:00.<br>"
+  "After ~11:45 every Day-2 game is a <b>re-shoot</b> of teams you already have — stay only for better frames.")
+D2_LOGISTICS="""<details><summary>🚌 Getting there &amp; options</summary>
+ <ul>
+  <li><b>All at Ford Park</b> — no field-hopping, no mid-day buses.</li>
+  <li><b>Getting there:</b> you only need Ford by ~9:20. Any <b>Sandstone</b> bus → Transportation Center → ~12-min walk, or the <b>Golf Course</b> route straight to Ford Park.</li>
+  <li><b>9:30 fork:</b> <b>Tivoli Brewery</b> (Ford Field 1) vs <b>Team 41</b> (Ford Ford 2) — same time, pick one; neither plays again.</li>
+  <li><b>Optional afternoon (re-shoots):</b> 12:30 Navy Old Goats and 2:00 Elysian Brewery / Domewood on Ford — teams you already have.</li>
+  <li>⚠️ Day-2 bus times aren't pinned (you only need Ford by ~9:20) — confirm live on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
+ </ul></details>"""
+
+ROUTES=[
+ {'key':'20260627','tab':'Day 1 · Sat 6/27','intro':D1_INTRO,
+  'stat':[[str(len(covered)),'teams shot'],['~3:30p','last shot · home ~4:15'],['$0','buses free']],
+  'dl':[['vail_day1_route.ics','📅 Add Day 1 route to Calendar']],
+  'steps':route,'covered':covered,'missnote':D1_MISSNOTE,'logistics':D1_LOGISTICS},
+ {'key':'20260628','tab':'Day 2 · Sun 6/28','intro':D2_INTRO,
+  'stat':[[str(len(new2)),'new teams left'],['~11:45a','last new team'],['Ford','only — no walking']],
+  'dl':[['vail_day2_route.ics','📅 Add Day 2 route to Calendar']],
+  'steps':route2,'covered':covered2,'missnote':D2_MISSNOTE,'logistics':D2_LOGISTICS},
+]
+
 DATA={'games':sorted(g,key=lambda r:(r['date'],r['venue'],r['field'],r['t'])),
-      'route':route,'covered':covered,'missed':missed,
+      'routes':ROUTES,
       'days':sorted(set((x['date'],x['dlabel']) for x in g)),
       'divisions':sorted(set(x['division'] for x in g)),
       'fields':sorted(set(x['field'] for x in g))}
@@ -252,6 +330,9 @@ nav button.on{background:#b91c1c;color:#fff}
 .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}
 .routestep{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin:7px 0;background:var(--card)}
 .routestep .tm{font-weight:800;color:#fff}
+.dayswitch{display:flex;gap:8px;margin:0 0 12px}
+.dayswitch button{flex:1;min-height:44px;border:1px solid var(--line);border-radius:10px;background:#23303d;color:var(--ink);font-weight:700;font-size:14px;cursor:pointer}
+.dayswitch button.on{background:#b91c1c;color:#fff;border-color:#b91c1c}
 .routestep.live{outline:2px solid var(--accent);background:#241a1a}
 .routestep.next{outline:1px solid #2f6b48}
 .travel{border:1px dashed var(--bus);background:#13202b;border-radius:10px;padding:10px 12px;margin:7px 0;font-size:14px;color:#cfe8f3;line-height:1.5}
@@ -279,7 +360,7 @@ a{color:var(--bus)}
 <header><h1>Vail Lacrosse Shootout 2026</h1>
 <div class=sub>Jun 27 – Jul 5 · 8 divisions · 7 fields · __NGAMES__ games</div></header>
 <nav><button id=tab-sched class=on aria-pressed=true onclick="show('sched')">📋 Schedule</button>
-<button id=tab-route aria-pressed=false onclick="show('route')">📷 My Route · Day 1</button></nav>
+<button id=tab-route aria-pressed=false onclick="show('route')">📷 My Route</button></nav>
 
 <main class=wrap id=view-sched>
  <div class=legend>
@@ -302,29 +383,13 @@ a{color:var(--bus)}
 </main>
 
 <main class=wrap id=view-route hidden>
- <div class=stat>
-   <div><b id=rTeams></b>teams covered</div>
-   <div><b>~3:30p</b>last shot · home ~4:15</div>
-   <div><b>$0</b>all buses free</div>
- </div>
- <p class=sub>🚌 <b>Car-free · shorter day</b> from Sun Vail · full Ford Park morning, out to East Vail after lunch, done by ~3:30p · ~35 min per game · Sat Jun 27. All Town of Vail buses are <b>free</b>.</p>
- <div class=dl>
-   <a href="vail_day1_route.ics" download>📅 Add my Day 1 route to Calendar</a>
- </div>
+ <div class=dayswitch id=dayswitch></div>
+ <div class=stat id=rStat></div>
+ <p class=sub id=rIntro></p>
+ <div class=dl id=rDl></div>
  <div id=routeout></div>
  <div class=note id=missnote></div>
- <details><summary>🚌 Car-free logistics & alternatives</summary>
- <ul>
-  <li><b>All Town of Vail buses are free.</b> Hub is the <b>Vail Transportation Center</b> (Vail Village) — every route meets there to transfer.</li>
-  <li><b>In-Town Shuttle</b>: every 7–10 min; reaches <b>Ford Park</b> (via Vail Valley Dr) only <b>9a–9p</b>.</li>
-  <li><b>Golf Course route</b>: serves Ford Park/Athletic; first bus 7:40a, hourly 8:10a–5:10p — an alternate early-AM ride if you skip the walk.</li>
-  <li><b>East Vail route</b>: serves the <b>Booth Falls</b> stop by Vail Mountain School; ~15-min service from 6a.</li>
-  <li><b>Sandstone route</b>: your home stop at Sun Vail ↔ Transportation Center.</li>
-  <li><b>Easier morning (–1 team):</b> skip the 8:00 game and start at 8:45 — you'd miss either Silverbacks or Mr Boh.</li>
-  <li><b>Fuller day (+1 team, ends ~5p):</b> stay at Ford for the 1:30 game (adds 10th Mtn Whiskey, 18 teams), then ride to VMS for the 3:45 &amp; 4:30 games.</li>
-  <li><b>Stay at Ford, skip Athletic (net –1 team):</b> drop the 11:15 walk to Athletic — you'd give up <b>Tivoli Brewery</b> &amp; <b>Team 8</b> (seen nowhere else today) — and instead shoot <b>Old Big Green vs Graybirds</b> on Ford Field 1, grabbing the otherwise-missed <b>Old Big Green</b>. Saves the ~14-min round-trip walk; nets 16 teams instead of 17.</li>
-  <li>⚠️ Bus times verified <b>__VERIFIED__</b> against the published Town of Vail schedules; service can still change. Each bus step has a <b>“check live ↗”</b> link, or confirm departures on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
- </ul></details>
+ <div id=rLogistics></div>
  <p class=fld>Teams you'll photograph</p><div class=chips id=covchips></div>
 </main>
 
@@ -416,23 +481,35 @@ function render(){
 }
 [fDay,fDiv,fField].forEach(e=>e.onchange=render); fSearch.oninput=render; render();
 setInterval(updateLive,30000);
-document.getElementById('rTeams').textContent=D.covered.length;
-let ro='';
-for(const r of D.route){
-  if(r.type=='game'){ro+=`<div class="routestep ${loc(r.field)}" data-date="${r.date}" data-t="${r.t}">
-    <div><div class=tm>${esc(r.time).replace(' ','')}</div></div>
-    <div>${r.gid?`<button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${r.gid}')">＋📅</button>`:''}<div class=dv>${esc(r.division)} · ${esc(r.field)}<span class=gbadge></span></div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
-    ${r.focus?`<div class=focus>${r.focus}</div>`:''}</div></div>`}
-  else if(r.type=='lunch'){ro+=`<div class=lunch>${r.instr}</div>`}
-  else if(r.type=='walk'){ro+=`<div class=travel style="border-style:dotted">${r.instr}</div>`}
-  else {ro+=`<div class=travel>${r.instr}</div>`}
+// ---- My Route: multi-day, switchable ----
+function routeStepsHTML(steps){
+  let ro='';
+  for(const r of steps){
+    if(r.type=='game'){ro+=`<div class="routestep ${loc(r.field)}" data-date="${r.date}" data-t="${r.t}">
+      <div><div class=tm>${esc(r.time).replace(' ','')}</div></div>
+      <div>${r.gid?`<button class=addcal title="Add this game to your calendar" aria-label="Add to calendar" onclick="addCal('${r.gid}')">＋📅</button>`:''}<div class=dv>${esc(r.division)} · ${esc(r.field)}<span class=gbadge></span></div><div class=mt>${esc(r.team1)} <small class=hint>vs</small> ${esc(r.team2)}</div>
+      ${r.focus?`<div class=focus>${r.focus}</div>`:''}</div></div>`}
+    else if(r.type=='lunch'){ro+=`<div class=lunch>${r.instr}</div>`}
+    else if(r.type=='walk'){ro+=`<div class=travel style="border-style:dotted">${r.instr}</div>`}
+    else {ro+=`<div class=travel>${r.instr}</div>`}
+  }
+  return ro;
 }
-document.getElementById('routeout').innerHTML=ro;
-updateLive(); // light up live/next on the route steps too
-document.getElementById('covchips').innerHTML=D.covered.map(t=>`<span class=chip>${esc(t)}</span>`).join('');
-document.getElementById('missnote').innerHTML=`<b>${D.missed.length} of 20 teams not covered:</b> ${D.missed.map(esc).join(', ')}.<br>`+
- `• <b>10th Mtn Whiskey</b> — skipped by choice for the shorter day (only plays the 1:30 &amp; 2:15 Ford games). Want it? Use the <i>Fuller day</i> option below.<br>`+
- `• <b>Old Big Green</b> &amp; <b>Team 41</b> — boxed out by the 10:30–12:00 Grandmasters crunch (8 teams across 3 parallel fields). To grab them you'd field-hop (≈15–20 min/game): Old Big Green on Ford Field 1, Team 41 on the Athletic field.`;
+const ROUTES=D.routes;
+function renderRoute(i){
+  const R=ROUTES[i];
+  document.querySelectorAll('#dayswitch button').forEach((b,j)=>b.classList.toggle('on',j===i));
+  document.getElementById('rStat').innerHTML=R.stat.map(s=>`<div><b>${esc(s[0])}</b>${esc(s[1])}</div>`).join('');
+  document.getElementById('rIntro').innerHTML=R.intro;
+  document.getElementById('rDl').innerHTML=R.dl.map(d=>`<a href="${d[0]}" download>${d[1]}</a>`).join('');
+  document.getElementById('routeout').innerHTML=routeStepsHTML(R.steps);
+  document.getElementById('missnote').innerHTML=R.missnote;
+  document.getElementById('rLogistics').innerHTML=R.logistics;
+  document.getElementById('covchips').innerHTML=R.covered.map(t=>`<span class=chip>${esc(t)}</span>`).join('');
+  updateLive();
+}
+document.getElementById('dayswitch').innerHTML=ROUTES.map((R,i)=>`<button type=button onclick="renderRoute(${i})">${esc(R.tab)}</button>`).join('');
+{let di=ROUTES.findIndex(R=>{const tn=nowMtn();return tn&&R.key===tn.date}); if(di<0)di=0; renderRoute(di);}
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
   addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
@@ -450,8 +527,8 @@ MANIFEST=json.dumps({
            {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]
 }, indent=2)
 # Bump CACHE when assets change so clients pick up the new build.
-SW=r"""const CACHE='vail-lax-v1';
-const ASSETS=['./','index.html','manifest.webmanifest','vail_day1_route.ics','vail_full_schedule.ics','icon-192.png','icon-512.png','icon-180.png'];
+SW=r"""const CACHE='vail-lax-v2';
+const ASSETS=['./','index.html','manifest.webmanifest','vail_day1_route.ics','vail_day2_route.ics','vail_full_schedule.ics','icon-192.png','icon-512.png','icon-180.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{

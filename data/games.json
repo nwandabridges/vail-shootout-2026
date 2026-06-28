@@ -105,8 +105,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "9:30 AM",
   "field": "Ford - Field 1",
-  "team1": "Pool A 1st Place",
-  "team2": "Pool C 1st Place",
+  "team1": "Graybirds",
+  "team2": "Tivoli Brewery",
   "gid": "h20260621041907155990b366273464b"
  },
  {
@@ -116,8 +116,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "9:30 AM",
   "field": "Ford - Ford 2",
-  "team1": "Pool B 1st Place",
-  "team2": "Pool C 2nd Place",
+  "team1": "Middlebury",
+  "team2": "Team 41",
   "gid": "h2026062104190715576523b35344f4d"
  },
  {
@@ -127,8 +127,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "9:30 AM",
   "field": "Athletic",
-  "team1": "Pool A 3rd Place",
-  "team2": "Pool B 3rd Place",
+  "team1": "Old Big Green",
+  "team2": "Generals",
   "gid": "h202606210419071550ae4bbf02ea441"
  },
  {
@@ -138,8 +138,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "11:00 AM",
   "field": "Ford - Field 1",
-  "team1": "Pool A 2nd Place",
-  "team2": "Pool B 2nd Place",
+  "team1": "Bushwood",
+  "team2": "Navy Grand Goats",
   "gid": "h20260621041907155c5ec139d21db48"
  },
  {
@@ -150,7 +150,7 @@
   "time": "11:00 AM",
   "field": "Ford - Ford 2",
   "team1": "Bracket Loser B12",
-  "team2": "Pool C 3rd Place",
+  "team2": "Team 8",
   "gid": "h20260621041907155356f6c2c435748"
  },
  {
@@ -479,8 +479,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "12:30 PM",
   "field": "Ford - Field 1",
-  "team1": "Conference A 1st Place",
-  "team2": "Conference B 2nd Place",
+  "team1": "Navy Old Goats",
+  "team2": "Laxgear/Silver Oysters",
   "gid": "h20260621034631191b0cd6483204946"
  },
  {
@@ -490,8 +490,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "12:30 PM",
   "field": "Ford - Ford 2",
-  "team1": "Conference A 3rd Place",
-  "team2": "Conference B 4th Place",
+  "team1": "Elysian Brewery",
+  "team2": "Old Birds",
   "gid": "h2026062103463119111ff17f1e5bc4e"
  },
  {
@@ -501,8 +501,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "2:00 PM",
   "field": "Ford - Field 1",
-  "team1": "Conference A 2nd Place",
-  "team2": "Conference B 1st Place",
+  "team1": "10th Mtn Whiskey",
+  "team2": "Outlaws",
   "gid": "h202606210346311917f4e191b384342"
  },
  {
@@ -512,8 +512,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "2:00 PM",
   "field": "Ford - Ford 2",
-  "team1": "Conference A 3rd Place",
-  "team2": "Conference B 3rd Place",
+  "team1": "Elysian Brewery",
+  "team2": "Domewood",
   "gid": "h20260621034631191d17d1a6651de49"
  },
  {
@@ -1216,8 +1216,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "8:00 AM",
   "field": "Ford - Field 1",
-  "team1": "Pool A 1st Place",
-  "team2": "Pool B 2nd Place",
+  "team1": "Los Abuelos",
+  "team2": "Mr Boh",
   "gid": "h202606210436022725e836bd345a24c"
  },
  {
@@ -1227,8 +1227,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "8:00 AM",
   "field": "Ford - Ford 2",
-  "team1": "Pool B 1st Place",
-  "team2": "Pool A 2nd Place",
+  "team1": "Navy Old Goats",
+  "team2": "Silverbacks",
   "gid": "h202606210436022726064686a53e34f"
  },
  {
@@ -1238,8 +1238,8 @@
   "datetxt": "Sun 06/28/26",
   "time": "8:00 AM",
   "field": "Athletic",
-  "team1": "Pool A 3rd Place",
-  "team2": "Pool B 3rd Place",
+  "team1": "Middlebury",
+  "team2": "Grateful Undead",
   "gid": "h2026062104360227234e43186911e49"
  },
  {
