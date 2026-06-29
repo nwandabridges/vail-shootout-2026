@@ -300,7 +300,7 @@ UID:h20260621041907155356f6c2c435748@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260628T170000Z
 DTEND:20260628T174500Z
-SUMMARY:Grandmasters: Bracket Loser B12 vs Team 8
+SUMMARY:Grandmasters: Generals vs Team 8
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
 END:VEVENT
@@ -345,7 +345,7 @@ UID:h202606210436022726239cb40779641@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T140000Z
 DTEND:20260629T144500Z
-SUMMARY:Zenmasters: Bracket Winner B7 vs Bracket Winner B8
+SUMMARY:Zenmasters: Los Abuelos vs Navy Old Goats
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
@@ -354,7 +354,7 @@ UID:h20260621043602272735a2530cae448@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T140000Z
 DTEND:20260629T144500Z
-SUMMARY:Zenmasters: Unknown vs Unknown
+SUMMARY:Zenmasters: Middlebury vs Silverbacks
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
 END:VEVENT
@@ -363,7 +363,7 @@ UID:h202606210436022737f60c08f49a244@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T140000Z
 DTEND:20260629T144500Z
-SUMMARY:Zenmasters: Unknown vs Unknown
+SUMMARY:Zenmasters: Mr Boh vs Grateful Undead
 LOCATION:Vail Athletic Fields\, 646 Vail Valley Dr\, Vail\, CO — Athlet
  ic
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Athletic
@@ -393,7 +393,7 @@ UID:h202606210419071558edc784ef3e042@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T153000Z
 DTEND:20260629T161500Z
-SUMMARY:Grandmasters: Bracket Winner B10 vs Bracket Winner B11
+SUMMARY:Grandmasters: Tivoli Brewery vs Middlebury
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
@@ -402,7 +402,7 @@ UID:h2026062104190715646d0d0ade74840@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T153000Z
 DTEND:20260629T161500Z
-SUMMARY:Grandmasters: Bracket Loser B10 vs Bracket Loser B11
+SUMMARY:Grandmasters: Graybirds vs Team 41
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
 END:VEVENT
@@ -411,7 +411,7 @@ UID:h202606210419071562af9d0a7c4f649@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T153000Z
 DTEND:20260629T161500Z
-SUMMARY:Grandmasters: Pool A 2nd Place vs Pool B 3rd Place
+SUMMARY:Grandmasters: Bushwood vs Generals
 LOCATION:Vail Athletic Fields\, 646 Vail Valley Dr\, Vail\, CO — Athlet
  ic
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Athletic
@@ -421,7 +421,7 @@ UID:h20260621034631191b6dc9cd534b946@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T153000Z
 DTEND:20260629T161500Z
-SUMMARY:Supermasters: Unknown vs Unknown
+SUMMARY:Supermasters: 10th Mtn Whiskey vs Domewood
 LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
  Mountain School
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
@@ -441,7 +441,7 @@ UID:h20260621041907156b377f92d453145@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T170000Z
 DTEND:20260629T174500Z
-SUMMARY:Grandmasters: Pool A 3rd Place vs Pool B 2nd Place
+SUMMARY:Grandmasters: Old Big Green vs Navy Grand Goats
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
 END:VEVENT
@@ -450,7 +450,7 @@ UID:h20260621041907156ea2dfc424d654d@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T170000Z
 DTEND:20260629T174500Z
-SUMMARY:Grandmasters: Pool A 2nd Place vs Pool C 3rd Place
+SUMMARY:Grandmasters: Bushwood vs Team 8
 LOCATION:Vail Athletic Fields\, 646 Vail Valley Dr\, Vail\, CO — Athlet
  ic
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Athletic
@@ -460,7 +460,7 @@ UID:h2026062103463119198e58c21feaf47@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T170000Z
 DTEND:20260629T174500Z
-SUMMARY:Supermasters: Bracket Winner B10 vs Bracket Winner B12
+SUMMARY:Supermasters: Navy Old Goats vs Outlaws
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
@@ -469,7 +469,7 @@ UID:h20260621034631191d6c0ce6297224c@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T170000Z
 DTEND:20260629T174500Z
-SUMMARY:Supermasters: Unknown vs Unknown
+SUMMARY:Supermasters: 10th Mtn Whiskey vs Old Birds
 LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
  Mountain School
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
@@ -499,7 +499,7 @@ UID:h20260621034631191e6e675fbb8e342@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260629T183000Z
 DTEND:20260629T191500Z
-SUMMARY:Supermasters: Unknown vs Unknown
+SUMMARY:Supermasters: Elysian Brewery vs Laxgear/Silver Oysters
 LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
  Mountain School
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
@@ -541,16 +541,6 @@ SUMMARY:U19 Girls: Hero's White vs Houston Heat
 LOCATION:Edwards Freedom Park\, 300 Miller Ranch Rd\, Edwards\, CO — ED
  W - Edwards 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · EDW - Edwards 2
-END:VEVENT
-BEGIN:VEVENT
-UID:h20260621034631191c2c712309c014b@vail-shootout-2026
-DTSTAMP:20260626T120000Z
-DTSTART:20260629T194500Z
-DTEND:20260629T203000Z
-SUMMARY:Supermasters: Unknown vs Unknown
-LOCATION:Vail Mountain School\, 3000 Booth Falls Rd\, Vail\, CO — Vail 
- Mountain School
-DESCRIPTION:Vail Lacrosse Shootout 2026 · Vail Mountain School
 END:VEVENT
 BEGIN:VEVENT
 UID:h2026062021370772324bea6f78e6548@vail-shootout-2026

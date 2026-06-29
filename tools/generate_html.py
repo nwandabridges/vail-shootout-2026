@@ -190,6 +190,34 @@ route2, gameobjs2 = build_route(STEPS2, "20260628", seen=SEEN_D2, highlight_new=
 covered2=sorted(set(t for r in gameobjs2 for t in (r['team1'],r['team2']) if not tbd(t)))
 new2=sorted(set(covered2)-SEEN_D2)
 
+# ---- Day 3 (Mon Jun 29): CHAMPIONSHIP DAY — all 3 masters finals at Ford Field 1 ----
+# Zenmasters (B10 8:00), Grandmasters (B15 9:30), Supermasters (B14 11:00) — back-to-back,
+# same field, no movement. Catching all three is the whole goal.
+D3_OUT  = ("🚶🚌 <b>Get to Ford Field 1 for the 8:00 faceoff.</b> Same as the last two mornings: the <b>Sandstone</b> bus to "
+  "the Transportation Center then the ~12-min walk (aim ~7:23a → ~7:40a), or the <b>Golf Course</b> route straight to "
+  "<b>Ford Park</b>. <i>Monday service can differ — check live.</i>"
+  + f' <a class=chk href="{maps_transit("Sun Vail, Vail, CO","Ford Park, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+D3_LUNCH = ("🍔 <b>Lunch at Ford</b> (~11:45a–12:30). The Supermasters final wraps ~11:45 and U19 Boys start at 12:30 — "
+  "grab food at the park, no need to leave.")
+D3_HOME = ("🚌 <b>Head home from Ford</b> after the 2:00 game (~2:45p). <b>In-Town Shuttle</b> / <b>Golf Course</b> route → "
+  "<b>Vail Transportation Center</b> → <b>Sandstone</b> home."
+  + f' <a class=chk href="{maps_transit("Ford Park, Vail, CO","Sun Vail, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+STEPS3=[
+ ("travel",D3_OUT),
+ ("game","8:00 AM","Ford - Field 1"),   # Zenmasters FINAL (B10)
+ ("game","9:30 AM","Ford - Field 1"),   # Grandmasters FINAL (B15)
+ ("game","11:00 AM","Ford - Field 1"),  # Supermasters FINAL (B14)
+ ("lunch",D3_LUNCH),
+ ("game","12:30 PM","Ford - Field 1"),  # U19 Boys: ADRLN vs Flip's Pirates
+ ("walk","📸 <b>Split the 12:30 slot</b> — shoot ~½ here, then 2-min walk to Ford 2 for the rest."),
+ ("game","12:30 PM","Ford - Ford 2"),   # U19 Boys: Laxachussetts vs Team CO 5A
+ ("walk","↔ 2-min walk back to Ford Field 1"),
+ ("game","2:00 PM","Ford - Field 1"),   # U19 Boys: Team CO 4A vs ADRLN — last new team
+ ("travel",D3_HOME),
+]
+route3, gameobjs3 = build_route(STEPS3, "20260629")
+covered3=sorted(set(t for r in gameobjs3 for t in (r['team1'],r['team2']) if not tbd(t)))
+
 # ---------- ICS calendar generation ----------
 def ics_escape(s):
     return s.replace("\\","\\\\").replace(";","\\;").replace(",","\\,").replace("\n","\\n")
@@ -225,9 +253,11 @@ def calendar(events,name):
 
 route_ics=calendar([vevent(x,"📷 ") for x in gameobjs],"My Vail Lax Route — Day 1")
 route2_ics=calendar([vevent(x,"📷 ") for x in gameobjs2],"My Vail Lax Route — Day 2")
+route3_ics=calendar([vevent(x,"🏆 ") for x in gameobjs3],"My Vail Lax Route — Day 3 Finals")
 full_ics =calendar([vevent(x) for x in sorted(g,key=lambda r:(r['date'],r['t']))],"Vail Lax Shootout 2026 — Full Schedule")
 open(os.path.join(OUT,"vail_day1_route.ics"),"w",newline="").write(route_ics)
 open(os.path.join(OUT,"vail_day2_route.ics"),"w",newline="").write(route2_ics)
+open(os.path.join(OUT,"vail_day3_route.ics"),"w",newline="").write(route3_ics)
 open(os.path.join(OUT,"vail_full_schedule.ics"),"w",newline="").write(full_ics)
 
 # ---- per-day route content (intro / stat / notes / logistics) ----
@@ -258,6 +288,25 @@ D2_LOGISTICS="""<details><summary>🚌 Getting there &amp; options</summary>
   <li>⚠️ Bus times aren't pinned for Day 2 — confirm live on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
  </ul></details>"""
 
+_fin_lines="<br>".join(f"<b>{x['time']}</b> · {x['division']} — {x['team1']} vs {x['team2']}" for x in gameobjs3 if x.get('champ'))
+D3_INTRO=("🏆 <b>Championship day, then U19 Boys — all at Ford Park.</b> The three masters finals run back-to-back on "
+  "<b>Ford Field 1</b> (8:00 · 9:30 · 11:00 — you've already shot all six finalists), then you stay at Ford for U19 Boys "
+  "pool play at 12:30 &amp; 2:00. No mid-day buses. Mon Jun 29.")
+D3_MISSNOTE=("🏆 <b>Today's finals — all at Ford Field 1:</b><br>"+_fin_lines+"<br><br>"
+  "This route catches <b>every championship</b> played today. After lunch you're staying at Ford for <b>U19 Boys</b> pool "
+  "play: splitting the <b>12:30</b> slot across Field 1 &amp; Ford 2 grabs all four teams (ADRLN, Flip's Pirates, "
+  "Laxachussetts, Team CO 5A); the <b>2:00</b> game on Field 1 adds <b>Team CO 4A</b>.<br>"
+  "<b>U19 Girls</b> pool play is over at Edwards — another photographer's covering it, so it's left off this route.")
+D3_LOGISTICS="""<details><summary>🚌 Getting there &amp; the day</summary>
+ <ul>
+  <li><b>All at Ford Park</b> — no mid-day buses. Three finals on Field 1 (8:00 → ~11:45), then U19 Boys at 12:30 &amp; 2:00.</li>
+  <li><b>Getting there:</b> Sandstone bus → Transportation Center → ~12-min walk to Ford, or the <b>Golf Course</b> route straight to Ford. Monday times can differ; check live.</li>
+  <li><b>Between finals:</b> ~45-min gaps (8:00→9:30, 9:30→11:00) — stay put, you're already at the field.</li>
+  <li><b>Splitting the 12:30 slot:</b> games are 45 min, Field 1 &amp; Ford 2 are a 2-min walk apart — shoot ~22 min on one, walk, ~20 on the other to catch both games' teams.</li>
+  <li><b>Edwards skipped:</b> U19 Girls pool play there is covered by another photographer.</li>
+  <li>⚠️ Bus times aren't pinned for Day 3 — confirm live on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
+ </ul></details>"""
+
 ROUTES=[
  {'key':'20260627','tab':'Day 1 · Sat 6/27','intro':D1_INTRO,
   'stat':[[str(len(covered)),'teams shot'],['8:00a–2:15p','your day'],['$0','buses free']],
@@ -267,6 +316,10 @@ ROUTES=[
   'stat':[[str(len(new2)),'new teams'],['8a–2:45p','full day'],['Ford','only · 2-min hops']],
   'dl':[['vail_day2_route.ics','📅 Add Day 2 route to Calendar']],
   'steps':route2,'covered':covered2,'missnote':D2_MISSNOTE,'logistics':D2_LOGISTICS},
+ {'key':'20260629','tab':'Day 3 · Mon 6/29','intro':D3_INTRO,
+  'stat':[['3','finals'],['+ U19 Boys','pool play'],['8a–2:45p','all at Ford']],
+  'dl':[['vail_day3_route.ics','📅 Add Day 3 finals to Calendar']],
+  'steps':route3,'covered':covered3,'missnote':D3_MISSNOTE,'logistics':D3_LOGISTICS},
 ]
 
 DATA={'games':sorted(g,key=lambda r:(r['date'],r['venue'],r['field'],r['t'])),
@@ -541,7 +594,7 @@ open(os.path.join(OUT,"manifest.webmanifest"),"w").write(MANIFEST)
 open(os.path.join(OUT,"sw.js"),"w").write(SW)
 
 open(os.path.join(REPO,"index.html"),"w").write(HTML)
-print(f"Wrote index.html + manifest.webmanifest + sw.js + 3 .ics files -> {REPO}")
+print(f"Wrote index.html + manifest.webmanifest + sw.js + 4 .ics files -> {REPO}")
 print(f"games={len(g)} route_games={len(gameobjs)} covered={len(covered)} missed={missed}")
 print("focus notes:")
 for r in gameobjs:
