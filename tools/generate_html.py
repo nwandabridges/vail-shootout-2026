@@ -218,6 +218,37 @@ STEPS3=[
 route3, gameobjs3 = build_route(STEPS3, "20260629")
 covered3=sorted(set(t for r in gameobjs3 for t in (r['team1'],r['team2']) if not tbd(t)))
 
+# ---- Day 5 (Thu Jul 2): Men's Elite kicks off — full new slate, all at Ford ----
+# 9 Men's Elite teams, all unseen. Two parallel-field pools: morning pool (6 teams,
+# 9:00-11:00 across Field 1 + Ford 2) and afternoon pool (3 teams, 12:00-2:00 Field 1).
+# Splitting the 9:00 & 10:00 slots grabs all 6 morning teams (recovers GCC CORP Alumni,
+# the one a single-field route misses); the afternoon pool adds the last 3.
+D5_OUT  = ("🚶🚌 <b>Get to Ford Field 1 for the 9:00 faceoff.</b> Men's Elite starts at 9:00 today — a more relaxed morning. "
+  "<b>Sandstone</b> bus → Transportation Center → ~12-min walk, or the <b>Golf Course</b> route straight to <b>Ford Park</b>. "
+  "<i>Check live — holiday-week service can differ.</i>"
+  + f' <a class=chk href="{maps_transit("Sun Vail, Vail, CO","Ford Park, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+D5_LUNCH = ("🍔 <b>Lunch at Ford</b> (~10:45a–12:00). You've bagged all six morning-pool teams — the <b>11:00</b> games are teams "
+  "you already have, so grab food and reset for the afternoon pool. (Want more reps? The 11:00 Field 1 &amp; Ford 2 games are a bonus.)")
+D5_HOME = ("🚌 <b>Head home from Ford</b> after the 1:00 game (~1:45p) — all nine teams in the bag. <b>In-Town Shuttle</b> / "
+  "<b>Golf Course</b> route → <b>Vail Transportation Center</b> → <b>Sandstone</b> home."
+  + f' <a class=chk href="{maps_transit("Ford Park, Vail, CO","Sun Vail, Vail, CO")}" target=_blank rel=noopener>check live ↗</a>')
+STEPS5=[
+ ("travel",D5_OUT),
+ ("game","9:00 AM","Ford - Field 1"),   # Northmen vs 10th Mountain
+ ("walk","📸 <b>Split the 9:00 slot</b> — shoot ~½ here, then 2-min walk to Ford 2 for the rest."),
+ ("game","9:00 AM","Ford - Ford 2"),    # RM Oysters vs GCC CORP Alumni — recovers GCC
+ ("walk","↔ 2-min walk back to Ford Field 1"),
+ ("game","10:00 AM","Ford - Field 1"),  # Northmen vs Team Craig — new: Team Craig
+ ("walk","📸 <b>Split the 10:00 slot</b> — shoot ~½ here, then 2-min walk to Ford 2 for the rest."),
+ ("game","10:00 AM","Ford - Ford 2"),   # GCC CORP Alumni vs Northside Boogeymen — new: Northside Boogeymen
+ ("lunch",D5_LUNCH),
+ ("game","12:00 PM","Ford - Field 1"),  # Mohawk Tile vs 10th Mountain OTF
+ ("game","1:00 PM","Ford - Field 1"),   # Mohawk Tile vs Buffs — new: Buffs
+ ("travel",D5_HOME),
+]
+route5, gameobjs5 = build_route(STEPS5, "20260702")
+covered5=sorted(set(t for r in gameobjs5 for t in (r['team1'],r['team2']) if not tbd(t)))
+
 # ---------- ICS calendar generation ----------
 def ics_escape(s):
     return s.replace("\\","\\\\").replace(";","\\;").replace(",","\\,").replace("\n","\\n")
@@ -254,10 +285,12 @@ def calendar(events,name):
 route_ics=calendar([vevent(x,"📷 ") for x in gameobjs],"My Vail Lax Route — Day 1")
 route2_ics=calendar([vevent(x,"📷 ") for x in gameobjs2],"My Vail Lax Route — Day 2")
 route3_ics=calendar([vevent(x,"🏆 ") for x in gameobjs3],"My Vail Lax Route — Day 3 Finals")
+route5_ics=calendar([vevent(x,"📷 ") for x in gameobjs5],"My Vail Lax Route — Day 5 Men's Elite")
 full_ics =calendar([vevent(x) for x in sorted(g,key=lambda r:(r['date'],r['t']))],"Vail Lax Shootout 2026 — Full Schedule")
 open(os.path.join(OUT,"vail_day1_route.ics"),"w",newline="").write(route_ics)
 open(os.path.join(OUT,"vail_day2_route.ics"),"w",newline="").write(route2_ics)
 open(os.path.join(OUT,"vail_day3_route.ics"),"w",newline="").write(route3_ics)
+open(os.path.join(OUT,"vail_day5_route.ics"),"w",newline="").write(route5_ics)
 open(os.path.join(OUT,"vail_full_schedule.ics"),"w",newline="").write(full_ics)
 
 # ---- per-day route content (intro / stat / notes / logistics) ----
@@ -307,6 +340,23 @@ D3_LOGISTICS="""<details><summary>🚌 Getting there &amp; the day</summary>
   <li>⚠️ Bus times aren't pinned for Day 3 — confirm live on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
  </ul></details>"""
 
+D5_INTRO=("📷 <b>Men's Elite kicks off — a full new slate at Ford.</b> Nine Men's Elite teams you haven't shot, all at Ford Park. "
+  "Splitting the <b>9:00 &amp; 10:00</b> slots across both fields grabs all six morning-pool teams; the afternoon pool adds three more — "
+  "every team, done by ~1:45p. Thu Jul 2.")
+D5_MISSNOTE=("📸 <b>Two split slots get you the whole morning pool.</b> At <b>9:00</b> shoot ~½ Field 1 (Northmen + 10th Mountain) "
+  "then ~½ Ford 2 (RM Oysters + GCC CORP Alumni); at <b>10:00</b> ~½ Field 1 (Team Craig) then ~½ Ford 2 (Northside Boogeymen). "
+  "That's all six — the split recovers <b>GCC CORP Alumni</b>, which a single-field morning would miss.<br>"
+  "The afternoon pool (12:00 &amp; 1:00, Field 1) adds <b>Mohawk Tile</b>, <b>10th Mountain OTF</b> &amp; <b>Buffs</b> — "
+  "<b>nine total, every Men's Elite team.</b> The 11:00 &amp; 2:00 games are teams you'll already have (optional extra reps).")
+D5_LOGISTICS="""<details><summary>🚌 Getting there &amp; the day</summary>
+ <ul>
+  <li><b>All at Ford Park</b> — no mid-day buses. Morning pool on Field 1 + Ford 2 (9:00–11:00), afternoon pool on Field 1 (12:00–2:00).</li>
+  <li><b>Getting there:</b> be at Ford for the 9:00 faceoff — Sandstone bus → Transportation Center → ~12-min walk, or the <b>Golf Course</b> route straight to Ford. Holiday-week times can differ; check live.</li>
+  <li><b>Splitting a slot:</b> games are 45 min, Field 1 &amp; Ford 2 are a 2-min walk apart — shoot ~22 min on one, walk, ~20 on the other to catch both games' teams.</li>
+  <li><b>Optional:</b> the 11:00 (both fields) &amp; 2:00 games are all teams you'll already have — extra reps if you want them.</li>
+  <li>⚠️ Bus times aren't pinned for Day 5 — confirm live on the <b>Transit app</b>, <a href="https://ride.vail.gov">ride.vail.gov</a>, or ☎ 970-477-3456.</li>
+ </ul></details>"""
+
 ROUTES=[
  {'key':'20260627','tab':'Day 1 · Sat 6/27','intro':D1_INTRO,
   'stat':[[str(len(covered)),'teams shot'],['8:00a–2:15p','your day'],['$0','buses free']],
@@ -320,6 +370,10 @@ ROUTES=[
   'stat':[['3','finals'],['+ U19 Boys','pool play'],['8a–2:45p','all at Ford']],
   'dl':[['vail_day3_route.ics','📅 Add Day 3 finals to Calendar']],
   'steps':route3,'covered':covered3,'missnote':D3_MISSNOTE,'logistics':D3_LOGISTICS},
+ {'key':'20260702','tab':'Day 5 · Thu 7/2','intro':D5_INTRO,
+  'stat':[[str(len(covered5)),'new teams'],['9a–1:45p','all at Ford'],['Ford','only · 2-min hops']],
+  'dl':[['vail_day5_route.ics','📅 Add Day 5 route to Calendar']],
+  'steps':route5,'covered':covered5,'missnote':D5_MISSNOTE,'logistics':D5_LOGISTICS},
 ]
 
 DATA={'games':sorted(g,key=lambda r:(r['date'],r['venue'],r['field'],r['t'])),
@@ -594,7 +648,7 @@ open(os.path.join(OUT,"manifest.webmanifest"),"w").write(MANIFEST)
 open(os.path.join(OUT,"sw.js"),"w").write(SW)
 
 open(os.path.join(REPO,"index.html"),"w").write(HTML)
-print(f"Wrote index.html + manifest.webmanifest + sw.js + 4 .ics files -> {REPO}")
+print(f"Wrote index.html + manifest.webmanifest + sw.js + 5 .ics files -> {REPO}")
 print(f"games={len(g)} route_games={len(gameobjs)} covered={len(covered)} missed={missed}")
 print("focus notes:")
 for r in gameobjs:
