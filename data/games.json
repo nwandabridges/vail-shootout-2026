@@ -831,8 +831,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "8:30 AM",
   "field": "EDW - Edwards 2",
-  "team1": "Silver Division 3rd Place",
-  "team2": "Silver Division 5th Place",
+  "team1": "[3] 10th Mountain",
+  "team2": "[5] Houston Heat",
   "gid": "h2026062021470503752a3ce7ed79a47"
  },
  {
@@ -842,8 +842,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "9:00 AM",
   "field": "EDW - Edwards Turf",
-  "team1": "Silver Division 2nd Place",
-  "team2": "Silver Division 1st Place",
+  "team1": "[2] CO Command Carolina",
+  "team2": "[1] Hero's White",
   "gid": "h20260620214705037d70b55eb4c2947"
  },
  {
@@ -853,8 +853,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "9:00 AM",
   "field": "EDW - Edwards 2",
-  "team1": "Silver Division 4th Place",
-  "team2": "Silver Division 5th Place",
+  "team1": "[4] CO Command Navy",
+  "team2": "[5] Houston Heat",
   "gid": "h20260620214705037c2998481acfc46"
  },
  {
@@ -864,8 +864,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "9:30 AM",
   "field": "EDW - Edwards 2",
-  "team1": "Silver Division 4th Place",
-  "team2": "Silver Division 3rd Place",
+  "team1": "[4] CO Command Navy",
+  "team2": "[3] 10th Mountain",
   "gid": "h20260620214705037382b55bd068f47"
  },
  {
@@ -1359,8 +1359,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "9:00 AM",
   "field": "Ford - Field 1",
-  "team1": "Pool 3rd Place",
-  "team2": "Pool 4th Place",
+  "team1": "Team CO 5A",
+  "team2": "Team CO 4A",
   "gid": "h202606210452314739e33fe52120d4b"
  },
  {
@@ -1369,9 +1369,9 @@
   "date": "20260701",
   "datetxt": "Wed 07/01/26",
   "time": "10:30 AM",
-  "field": "Ford - Ford 2",
-  "team1": "Pool 5th Place",
-  "team2": "Bracket Loser B9",
+  "field": "Ford - Field 1",
+  "team1": "Flip's Pirates",
+  "team2": "Team CO 4A",
   "gid": "h2026062104523147328872bfcfbcc48"
  },
  {
@@ -1381,8 +1381,8 @@
   "datetxt": "Wed 07/01/26",
   "time": "12:00 PM",
   "field": "Ford - Field 1",
-  "team1": "Pool 1st Place",
-  "team2": "Pool 2nd Place",
+  "team1": "ADRLN",
+  "team2": "Laxachussetts",
   "gid": "h202606210452314737ea00885af6040"
  }
 ]

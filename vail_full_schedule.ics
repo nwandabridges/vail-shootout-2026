@@ -691,7 +691,7 @@ UID:h2026062021470503752a3ce7ed79a47@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T143000Z
 DTEND:20260701T151500Z
-SUMMARY:U19 Girls: Silver Division 3rd Place vs Silver Division 5th Place
+SUMMARY:U19 Girls: [3] 10th Mountain vs [5] Houston Heat
 LOCATION:Edwards Freedom Park\, 300 Miller Ranch Rd\, Edwards\, CO — ED
  W - Edwards 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · EDW - Edwards 2
@@ -701,7 +701,7 @@ UID:h20260620214705037d70b55eb4c2947@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T150000Z
 DTEND:20260701T154500Z
-SUMMARY:U19 Girls: Silver Division 2nd Place vs Silver Division 1st Place
+SUMMARY:U19 Girls: [2] CO Command Carolina vs [1] Hero's White
 LOCATION:Edwards Freedom Park\, 300 Miller Ranch Rd\, Edwards\, CO — ED
  W - Edwards Turf
 DESCRIPTION:Vail Lacrosse Shootout 2026 · EDW - Edwards Turf
@@ -711,7 +711,7 @@ UID:h20260620214705037c2998481acfc46@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T150000Z
 DTEND:20260701T154500Z
-SUMMARY:U19 Girls: Silver Division 4th Place vs Silver Division 5th Place
+SUMMARY:U19 Girls: [4] CO Command Navy vs [5] Houston Heat
 LOCATION:Edwards Freedom Park\, 300 Miller Ranch Rd\, Edwards\, CO — ED
  W - Edwards 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · EDW - Edwards 2
@@ -721,7 +721,7 @@ UID:h202606210452314739e33fe52120d4b@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T150000Z
 DTEND:20260701T154500Z
-SUMMARY:U19 Boys: Pool 3rd Place vs Pool 4th Place
+SUMMARY:U19 Boys: Team CO 5A vs Team CO 4A
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
@@ -730,7 +730,7 @@ UID:h20260620214705037382b55bd068f47@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T153000Z
 DTEND:20260701T161500Z
-SUMMARY:U19 Girls: Silver Division 4th Place vs Silver Division 3rd Place
+SUMMARY:U19 Girls: [4] CO Command Navy vs [3] 10th Mountain
 LOCATION:Edwards Freedom Park\, 300 Miller Ranch Rd\, Edwards\, CO — ED
  W - Edwards 2
 DESCRIPTION:Vail Lacrosse Shootout 2026 · EDW - Edwards 2
@@ -740,16 +740,16 @@ UID:h2026062104523147328872bfcfbcc48@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T163000Z
 DTEND:20260701T171500Z
-SUMMARY:U19 Boys: Pool 5th Place vs Bracket Loser B9
-LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Ford 2
-DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Ford 2
+SUMMARY:U19 Boys: Flip's Pirates vs Team CO 4A
+LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
+DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
 BEGIN:VEVENT
 UID:h202606210452314737ea00885af6040@vail-shootout-2026
 DTSTAMP:20260626T120000Z
 DTSTART:20260701T180000Z
 DTEND:20260701T184500Z
-SUMMARY:U19 Boys: Pool 1st Place vs Pool 2nd Place
+SUMMARY:U19 Boys: ADRLN vs Laxachussetts
 LOCATION:Ford Park\, 700 S Frontage Rd E\, Vail\, CO — Ford - Field 1
 DESCRIPTION:Vail Lacrosse Shootout 2026 · Ford - Field 1
 END:VEVENT
